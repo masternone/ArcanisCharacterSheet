@@ -1,0 +1,14 @@
+<form id="<%= form.name %>" name="<%= form.name %>" action="<%= action %>" method="POST" >
+	<% if( typeof( id ) == 'number' ){ %><input type="hidden" id="id" name="id" value="<%= id %>" /> <% } %>
+	<% if( method == "put" ){ %><input type="hidden" id="_method" name="_method" value="<%= method %>" /> <% } %>
+	<p>
+		<label for="name" >Name</label>
+		<input type="text" id="name" name="name" value="<%= skillGroup.name %>" />
+	</p>
+	<div class="clearfix" ></div>
+	<p>
+		<input type="submit" id="submit" name="submit" value="<%= submit %>" />
+		<input type="reset" id="reset" name="reset" value="Reset" />
+	</p>
+	<div class="clearfix" ></div>
+</form>

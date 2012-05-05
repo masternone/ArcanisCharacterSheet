@@ -1,0 +1,33 @@
+<form id="<%= form.name %>" name="<%= form.name %>" action="<%= action %>" method="POST" >
+	<% if( typeof( id ) == 'number' ){ %><input type="hidden" id="id" name="id" value="<%= id %>" /> <% } %>
+	<% if( method == "PUT" ){ %><input type="hidden" id="METHOD" name="METHOD" value="<%= method %>" /> <% } %>
+	<p>
+		<label for="name" >Name</label>
+		<input type="text" id="name" name="name" value="<%= skill.name %>" />
+	</p>
+	<div class="clearfix" ></div>
+	<p>
+		<label for="group" >Group</label>
+		<select id="group" name="group">
+			<% for( n in group ){ %> 
+				<option value="<%= n %>"><%= group[n] %></option>
+			<% } %>
+		</select>
+		<a id="newGroup" href="/skillGroup/new">Create a new Skill Group</a>
+	</p>
+	<p>
+		<label for="attribute" >Attribute</label>
+		<select id="attribute" name="attribute">
+			<% for( n in attribute ){ %> 
+				<option value="<%= n %>"><%= attribute[n].name %></option>
+			<% } %>
+		</select>
+		<a id="newGroup" href="/attribute/new">Create a new Attribute</a>
+	</p>
+	<div class="clearfix" ></div>
+	<p>
+		<input type="submit" id="submit" name="submit" value="<%= submit %>" />
+		<input type="reset" id="reset" name="reset" value="Reset" />
+	</p>
+	<div class="clearfix" ></div>
+</form>

@@ -1,0 +1,35 @@
+{
+	"name": "application-name",
+	"version": "0.0.1",
+	"private": true,
+	"author": "Edward Grant <themasternone@gmail.com>",
+	"description": "A full character Generator and Maintaince Web App for the Arcanis Role Playing Game",
+	"contributors": [ 
+		{ "name" : "Scott Reid",    "email" : "withheld" },
+		{ "name" : "Chris Chivers", "email" : "withheld" }
+	],
+	"scripts": {
+		"start": "node ./app"
+	},
+	"repository": {
+		"type": "git",
+		"url": "comming soon"
+	},
+	"keywords": [
+		"Arcanis",
+		"RPG",
+		"Role Playing Game",
+		"Character",
+		"Sheet"
+	],
+	"dependencies": {
+		"express": "2.5.8",
+		"less": ">= 0.0.1",
+		"ejs": ">= 0.0.1"
+	},
+	"license": "MIT",
+	"engine": {
+		"node": ">=0.6"
+	}
+
+}
