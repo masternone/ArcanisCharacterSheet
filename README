@@ -1,0 +1,54 @@
+Arcanis: The World of Shattered Empires
+The Roleplaying Game
+by Pedro Barrenechea, Henry Lopez, and Eric Wiener
+www.paradigmconcepts.com/
+
+The current core book that this application is base can be purchased here:
+
+http://www.amazon.com/Arcanis-World-Shattered-Empires-PCI1600/dp/193137449X/ref=sr_1_1?ie=UTF8&qid=1334840678&sr=8-1
+
+The Arcanis Character Sheet is a Node.js project.
+The goal for using Node.js to allow for easier set up, but setting up a persistant store that does not require the storing of data in the code repositortity so I can take advantage of free hosting is not that simple.
+
+To install Node.js follow the instrunction on http://nodejs.org/
+
+To install the dependencies:
+
+npm install
+
+The presistant store I have chosen is Redis.
+
+To install Redis follow the instrunctions on http://redis.io/topics/quickstart
+
+to start the server
+
+$ node ./app
+
+to view the results
+
+http://localhost:3000
+
+to send coments please email Edward Grant at themasternone@gmail.com with the subject "Character Sheet"
+
+TODO:
+User authentacation
+Create all the data input forms
+	skill groups - DONE
+	skill - DONE
+	attributes
+		name - DONE
+		cost
+		value
+		passive
+	manuevers
+		weapon tricks
+		martial techniques
+	spell traditions 
+	tallents
+	architypes
+	equipment
+	backgrounds
+Create all the methods to save the data in a redis Data Store
+Create a wizard to select options for a character
+	way incrementaly save character
+Dispaly completed character
