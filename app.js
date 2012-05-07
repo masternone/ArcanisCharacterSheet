@@ -49,6 +49,8 @@ app.post( '/:controller', function( req, res, next ){ // create
 	res.redirect( '/' + req.params.controller + '/0' );
 });
 
-app.listen( 3000, function(){
+var port = process.env.PORT || 8888;
+
+app.listen( port, function(){
   console.log( "Express server listening on port %d in %s mode", app.address().port, app.settings.env );
 });
