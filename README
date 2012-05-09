@@ -28,11 +28,21 @@ to view the results
 
 http://localhost:3000
 
+This application user google OAuth2 to authenticate the user.
+
+Once the application is registered with google the key and secret need to be set up as environment vars
+
+GOOGLE_OAuth_Client_ID
+GOOGLE_OAuth_Client_Secret
+
 to send coments please email Edward Grant at themasternone@gmail.com with the subject "Character Sheet"
 
 TODO:
 User authentacation
-Sessions
+	Sessions - DONE
+	Saving the user
+	Defining Roles
+		Assigining the user roles
 Create all the data input forms
 	skill groups - DONE
 	skill - DONE

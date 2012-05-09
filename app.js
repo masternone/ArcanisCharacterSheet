@@ -10,29 +10,18 @@ var express        = require( 'express' ),
 
 console.log( process.env );
 
-// Passport session setup.
-// To support persistent login sessions, Passport needs to be able to
-// serialize users into and deserialize users out of the session. Typically,
-// this will be as simple as storing the user ID when serializing, and finding
-// the user by ID when deserializing. However, since this example does not
-// have a database of user records, the complete Google profile is
-// serialized and deserialized.
 passport.serializeUser( function( user, done ){
-	console.log( 'user', user );
-	console.log( 'done', done );
+	// console.log( 'user', user );
+	// console.log( 'done', done );
 	done( null, user );
 });
 
 passport.deserializeUser( function( obj, done ){
-	console.log( 'obj', obj );
-	console.log( 'done', done );
+	// console.log( 'obj', obj );
+	// console.log( 'done', done );
 	done( null, obj );
 });
 
-// Use the GoogleStrategy within Passport.
-// Strategies in Passport require a `verify` function, which accept
-// credentials (in this case, an accessToken, refreshToken, and Google
-// profile), and invoke a callback with a user object.
 passport.use(
 	new GoogleStrategy({
 		clientID     : process.env.GOOGLE_OAuth_Client_ID,
@@ -40,12 +29,12 @@ passport.use(
 		callbackURL  : "http://localhost:8888/auth/google/callback"
 	},
 	function( accessToken, refreshToken, profile, done ){
-		// asynchronous verification, for effect...
 		process.nextTick( function(){
 			// To keep the example simple, the user's Google profile is returned to
 			// represent the logged-in user. In a typical application, you would want
 			// to associate the Google account with a user record in your database,
 			// and return that user instead.
+			console.log( "profile", profile );
 			return done( null, profile );
 		});
 	}
@@ -57,6 +46,8 @@ var app = module.exports = express.createServer();
 app.configure( function(){
 	app.set( 'views', __dirname + '/views' );
 	app.set( 'view engine', 'ejs' );
+	app.use( express.logger());
+	app.use( express.cookieParser());
 	app.use( express.bodyParser());
 	app.use( express.methodOverride());
 	app.use( express.session({ secret: 'keyboard cat' })); // this should be moved in to a env var
@@ -79,6 +70,37 @@ app.configure( 'production', function(){
 });
 
 // Routes
+/* start user block maybe needs to be moved to seperate file */
+app.get( '/account', isAuth, function( req, res ){
+	res.render( 'account', { user: req.user });
+});
+app.get(
+	'/login',
+	passport.authenticate(
+		'google', {
+			scope: [
+				'https://www.googleapis.com/auth/userinfo.profile',
+				'https://www.googleapis.com/auth/userinfo.email'
+			]
+		}
+	),
+	function(req, res){
+		// The request will be redirected to Google for authentication, so this
+		// function will not be called.
+	}
+);
+app.get(
+	'/auth/google/callback',
+	passport.authenticate( 'google', { failureRedirect: 'back' }),
+	function( req, res ){
+		res.redirect( 'back' );
+	}
+);
+app.get( '/logout', function( req, res ){
+	req.logout();
+	res.redirect( '/' );
+});
+/* end user block */
 
 app.get( '/', routes.index );
 app.get( '/:controller', function( req, res, next ){
@@ -105,3 +127,14 @@ var port = process.env.PORT || 8888;
 app.listen( port, function(){
   console.log( "Express server listening on port %d in %s mode", app.address().port, app.settings.env );
 });
+
+//helper methods should be moved externaily
+// Simple route middleware to ensure user is authenticated.
+// Use this route middleware on any resource that needs to be protected. If
+// the request is authenticated (typically via a persistent login session),
+// the request will proceed. Otherwise, the user will be redirected to the
+// login page.
+function isAuth( req, res, next ) {
+	if ( req.isAuthenticated()) { return next(); }
+	res.redirect( '/login' );
+}

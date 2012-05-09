@@ -10,7 +10,7 @@
 		<p class="row odd">
 			<span class="abbr"><%= attribute.abbr %></span>
 			<span class="name"><%= attribute.name %></span>
-			<% if( user.role.join().indexOf( 'admin' ) > -1 ){ %>
+			<% if( user && user.role && user.role.join().indexOf( 'admin' ) > -1 ){ %>
 				<span class="edit"><a href="<%= attribute.linkTo_attributeEdit %>" ><%= attribute.linkTo_attributeEditText %></a></span>
 			<% } %>
 		</p>

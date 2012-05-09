@@ -1,20 +1,35 @@
 @linkColor: #000;
-@unit: 16px;
 
+.vert-gradient3( @f, @fP, @s, @sP, @t, @tP ){
+	background: @f; /* Old browsers */
+	background: -moz-linear-gradient(left,  @f @fP, @s @sP, @t @tP); /* FF3.6+ */
+	background: -webkit-gradient(linear, left top, right top, color-stop(0%,@f), color-stop(@sP,@s), color-stop(@tP,@t)); /* Chrome,Safari4+ */
+	background: -webkit-linear-gradient(left,  @f 0%,@s @sP,@t @tP); /* Chrome10+,Safari5.1+ */
+	background: -o-linear-gradient(left,  @f @fP,@s @sP,@t @tP); /* Opera 11.10+ */
+	background: -ms-linear-gradient(left,  @f @fP,@s @sP,@t @tP); /* IE10+ */
+	background: linear-gradient(left,  @f @fP,@s @sP,@t @tP); /* W3C */
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='@f', endColorstr='@t',GradientType=1 ); /* IE6-9 */
+}
+
+
+*{
+	font-size: 1em;
+}
 .clearfix{
 	clear: both;
 }
 body {
 	font-family: "Lucida Grande", Helvetica, Arial, sans-serif;
-	font-size: @unit;
-	line-height: @unit * 1.25;
+	font-size: 100%;
+	line-height: 1.25em;
 	margin: 0;
-	padding: 0 0 0 @unit * 2.5;
+	padding: 0 0 0 2.5em;
+	.vert-gradient3( #FFFFFF, 0%, #CCCCCC, 80%, #000000, 100% )
 }
 h1{
-	font-size: @unit * 2;
-	line-height: @unit * 2.5;
-	margin: @unit * 2.5 0;
+	font-size: 2em;
+	line-height: 1.25em;
+	margin: 1.25em 0;
 }
 a:link, a:visited{
 	color: @linkColor;
@@ -23,24 +38,29 @@ a:link, a:visited{
 a:hover{
 	text-decoration: underline;
 }
+.loginWrapper{
+	left: 60%;
+	position: absolute;
+	top: 1em;
+}
 form{
 	p{
-		height: @unit * 1.25;
-		margin: 0 0 @unit;
+		height: 1.25em;
+		margin: 0 0 1em;
 		label{
 			text-align: right;
 		}
 		label, input, select {
-			margin: 0 @unit * .5 0 0;
+			margin: 0 .5em 0 0;
 			display: block;
 			float: left;
-			width: @unit * 9.5;
+			width: 9.5em;
 		}
 		input#submit + input#reset{
-			margin: 0 @unit * .5 0 0;
+			margin: 0 .5em 0 0;
 		}
 		label, select, input#submit, input#reset{
-			width: @unit * 9.75;
+			width: 9.75em;
 		}
 	}
 }
