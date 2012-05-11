@@ -1,2 +1,12 @@
 <h1><%= title %></h1>
 <p>Welcome to <%= title %></p>
+<% if( user && user.id && !isNaN( user.id )){ %>
+	<div class="charactor">
+		<span class="name">Name</span>
+		<span class="rank">Rank</span>
+		<span class="link">Link to Charactor</span>
+	</div>
+<% } else { %>
+	<p>Login to view or create characters</p>
+<% } %>
+
