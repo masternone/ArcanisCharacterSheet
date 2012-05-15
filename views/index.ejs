@@ -1,6 +1,15 @@
 <h1><%= title %></h1>
 <p>Welcome to <%= title %></p>
-<% if( user && user.id && !isNaN( user.id )){ %>
+<% if( user && user.roles && user.roles.join().indexOf( 'admin' ) > -1 ){ %>
+	<div class="sidebar admin">
+		<ul>
+			<% for( n in sidebar ){ %>
+				<li><a href="<%= sidebar[n].link %>"><%= sidebar[n].text %></a></li>
+			<% } %>
+		</ul>
+	</div>
+<% } %>
+<% if( user && user.displayName && user.displayName != '' ){ %>
 	<div class="charactor">
 		<span class="name">Name</span>
 		<span class="rank">Rank</span>

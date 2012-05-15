@@ -1,3 +1,4 @@
+var linkTo = require( '../util/linkTo' );
 
 var login = {
 	linkTo_login      : '/login',
@@ -5,13 +6,22 @@ var login = {
 	linkTo_logout     : '/logout',
 	linkTo_logoutText : 'Logout'
 }
+var dataAreas = ['attribute', 'skill', 'skillGroup'];
 
 /*
  * GET root
  */
 exports.index = function( req, res ){
 	console.log( 'req.user', req.user );
-	res.render( 'index', { user : req.user, login : login, title : 'Home' });
+	var sidebar = [];
+	for( n in dataAreas ){
+		sidebar.push({
+			link : linkTo.linkTo( dataAreas[n], 'index', 0 ),
+			text : linkTo.linkToText( dataAreas[n], 'index', 0 )
+		});
+	}
+	console.log( 'sidebar', sidebar );
+	res.render( 'index', { user : req.user, login : login, title : 'Home', sidebar : sidebar });
 };
 
 /*

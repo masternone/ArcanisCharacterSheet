@@ -24,6 +24,7 @@
 	],
 	"dependencies": {
 		"express"               : "2.5.8",
+		"redis-url"             : ">= 0.0.1",
 		"passport"              : ">= 0.0.1",
 		"passport-google-oauth" : ">= 0.0.1",
 		"less"                  : ">= 0.0.1",

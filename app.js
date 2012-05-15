@@ -6,9 +6,12 @@
 var express        = require( 'express' ),
 	passport       = require( 'passport' ),
 	GoogleStrategy = require( 'passport-google-oauth' ).OAuth2Strategy
-	routes         = require( './routes/routes' );
+	redis          = require( 'redis-url' ).connect(),
+	routes         = require( './routes/routes' )
+	models         = require( './models/models' ),
+	JSONRedis      = require( './util/JSONRedis' ).JSONRedis( redis );
 
-console.log( process.env );
+// console.log( process.env );
 
 passport.serializeUser( function( user, done ){
 	// console.log( 'user', user );
@@ -34,11 +37,46 @@ passport.use(
 			// represent the logged-in user. In a typical application, you would want
 			// to associate the Google account with a user record in your database,
 			// and return that user instead.
-			console.log( "profile", profile );
-			return done( null, profile );
+			// console.log( 'accessToken', accessToken );
+			// console.log( 'refreshToken', refreshToken );
+			// console.log( 'profile', profile );
+			JSONRedis.toJSON( 'user', 'user:' + profile.id, 0, function( error, fromRedis ){
+				if( error ){ console.log( error ); return error; }
+				console.log( 'fromRedis', fromRedis );
+				var user = {};
+				if( fromRedis ){
+					return done( null, fromRedis[profile.id] );
+				} else {
+					user[profile.id] = { 
+						displayName : profile.displayName,
+						email       : profile.emails[0].value,
+						roles       : ['user']
+					}
+					switch( profile.emails[0].value ){
+						case 'themasternone@gmail.com':
+							user[profile.id].roles.push( 'admin' );
+					}
+					JSONRedis.toRedis( 'user', user, function(){
+						return done( null, user[profile.id] );
+					});
+				}
+			});
 		});
 	}
 ));
+
+redis.on( 'error', function( error ) {
+	console.log( 'Error', error.toString() );
+	if( error.toString().indexOf( 'ECONNREFUSED' ) > -1 ){
+		redis.end();
+	}
+});
+
+redis.on( 'idle', function() {
+	console.log( 'inside idle' );
+	console.log( 'arguments', arguments );
+	console.log( 'ret', ret );
+});
 
 var app = module.exports = express.createServer();
 
@@ -122,7 +160,8 @@ app.post( '/:controller', function( req, res, next ){ // create
 	res.redirect( '/' + req.params.controller + '/0' );
 });
 
-var port = process.env.PORT || 8888;
+var port = process.env.PORT || 8888,
+	host = process.env.HOST || 'localhost';
 
 app.listen( port, function(){
   console.log( "Express server listening on port %d in %s mode", app.address().port, app.settings.env );

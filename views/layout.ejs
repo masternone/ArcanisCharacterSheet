@@ -7,7 +7,7 @@
 	</head>
 	<body>
 		<div class="loginWrapper">
-			<% if( user && user.id && !isNaN( user.id )){ %>
+			<% if( user && user.displayName && user.displayName != '' ){ %>
 				<%= user.displayName %> | <a href="<%= login.linkTo_logout %>" ><%= login.linkTo_logoutText %></a>
 			<% } else { %>
 				<a href="<%= login.linkTo_login %>" ><%= login.linkTo_loginText %></a>
