@@ -33,13 +33,6 @@ passport.use(
 	},
 	function( accessToken, refreshToken, profile, done ){
 		process.nextTick( function(){
-			// To keep the example simple, the user's Google profile is returned to
-			// represent the logged-in user. In a typical application, you would want
-			// to associate the Google account with a user record in your database,
-			// and return that user instead.
-			// console.log( 'accessToken', accessToken );
-			// console.log( 'refreshToken', refreshToken );
-			// console.log( 'profile', profile );
 			JSONRedis.toJSON( 'user', 'user:' + profile.id, 0, function( error, fromRedis ){
 				if( error ){ console.log( error ); return error; }
 				console.log( 'fromRedis', fromRedis );
@@ -141,23 +134,20 @@ app.get( '/logout', function( req, res ){
 /* end user block */
 
 app.get( '/', routes.index );
-app.get( '/:controller', function( req, res, next ){
+app.get( '/:controller', isAdminReq, function( req, res, next ){
 	console.log( 'index', req.params );
 	routes[req.params.controller].index( req, res );
 });
-app.get( '/:controller/:id', function( req, res, next ){ // show
+app.get( '/:controller/:id', isAdminReq, function( req, res, next ){ // show
 	console.log( 'req.params', req.params );
 	if( isNaN( req.params.id ) ) return next();
 	routes[req.params.controller].show( req, res, req.params.id );
 });
-app.get( '/:controller/new', function( req, res, next ){ // new
+app.get( '/:controller/new', isAdminReq, function( req, res, next ){ // new
 	routes[req.params.controller]['new']( req, res );
 });
-app.post( '/:controller', function( req, res, next ){ // create
-	// res.write( req.params.controller );
-	// res.write(JSON.stringify( req.body ));
-	// res.end();
-	res.redirect( '/' + req.params.controller + '/0' );
+app.post( '/:controller', isAdminReq,  function( req, res, next ){ // create
+	routes[req.params.controller]['create']( req, res, redis );
 });
 
 var port = process.env.PORT || 8888,
@@ -174,6 +164,35 @@ app.listen( port, function(){
 // the request will proceed. Otherwise, the user will be redirected to the
 // login page.
 function isAuth( req, res, next ) {
+	console.log( 'in is auth' );
 	if ( req.isAuthenticated()) { return next(); }
 	res.redirect( '/login' );
+}
+function isAdminReq( req, res, next ){
+	console.log( 'inside isAdminReq' );
+	switch( req.params.controller ){
+		case 'attribute':
+		case 'skill':
+		case 'skillGroup':
+			if( req.user && req.user.roles && req.user.roles.join().indexOf( 'admin' ) > -1 ){
+				console.log( 'is admin' );
+				next();
+			} else {
+				res.redirect( '/', 403 ); // TODO change this to a more robust 403 page cont display
+			}
+			break;
+		default:
+			return next();
+	}
+}
+
+
+function load(req, res, next) {
+	var controller = req.params.controller,
+		id         = req.params.id;
+	JSONRedis.toJSON( controller, controller + ':' + id, 0, function( error, fromRedis ){
+		if( error ) return next( new Error( 'Failed to load ' + controller + ':' + id ));
+		console.log( fromRedis );
+		
+	});
 }

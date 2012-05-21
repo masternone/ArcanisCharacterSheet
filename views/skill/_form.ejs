@@ -7,15 +7,6 @@
 	</p>
 	<div class="clearfix" ></div>
 	<p>
-		<label for="group" >Group</label>
-		<select id="group" name="group">
-			<% for( n in group ){ %> 
-				<option value="<%= n %>"><%= group[n] %></option>
-			<% } %>
-		</select>
-		<a id="newGroup" href="/skillGroup/new">Create a new Skill Group</a>
-	</p>
-	<p>
 		<label for="attribute" >Attribute</label>
 		<select id="attribute" name="attribute">
 			<% for( n in attribute ){ %> 
@@ -23,6 +14,16 @@
 			<% } %>
 		</select>
 		<a id="newGroup" href="/attribute/new">Create a new Attribute</a>
+	</p>
+	<div class="clearfix" ></div>
+	<p>
+		<label for="group" >Group</label>
+		<select id="group" name="group">
+			<% for( n in group ){ %> 
+				<option value="<%= n %>"><%= group[n] %></option>
+			<% } %>
+		</select>
+		<a id="newGroup" href="/skillGroup/new">Create a new Skill Group</a>
 	</p>
 	<div class="clearfix" ></div>
 	<p>

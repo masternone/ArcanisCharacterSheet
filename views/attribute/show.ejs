@@ -1,17 +1,8 @@
-<h1><%= title %></h1>
-<div>
-		<p class="header even">
-			<span class="abbr">Abbreviation</span>
-			<span class="name">Name</span>
-			<% if( user.role.join().indexOf( 'admin') > -1 ){ %>
-				<span class="edit">Edit</span>
-			<% } %>
-		</p>
-		<p class="row odd">
-			<span class="abbr"><%= attribute.abbr %></span>
-			<span class="name"><%= attribute.name %></span>
-			<% if( user && user.roles && user.roles.join().indexOf( 'admin' ) > -1 ){ %>
-				<span class="edit"><a href="<%= attribute.linkTo_attributeEdit %>" ><%= attribute.linkTo_attributeEditText %></a></span>
-			<% } %>
-		</p>
-</div>
+<% if( flash.notice ){ %>
+	<div class="notice"><%= flash.notice %>
+<% } %>
+<% if( flash.error ){ %>
+	<div class="error"><%= flash.error %>
+<% } %>
+<h3><%= title %></h3>
+<%- partial( 'table', { attribute : attribute }) %>

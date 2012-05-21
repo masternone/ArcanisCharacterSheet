@@ -1,5 +1,3 @@
 <h1><%= title %></h1>
-<p>List skills here</p>
-<% if( user && user.role && user.role.join().indexOf( 'admin' )){ %>
-	<a href="<%= linkTo_skillNew %>" ><%= linkTo_skillNewText %></a>
-<% } %>
+<%- partial( 'table', { skill : skill }) %>
+<a href="<%= linkTo_skillNew %>" ><%= linkTo_skillNewText %></a>

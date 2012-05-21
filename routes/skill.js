@@ -1,45 +1,46 @@
-var linkTo = require( '../util/linkTo' );
-
-exports.skill = function( login ){
+exports.skill = function( linkTo, login ){
 	return {
 		/*
-		 * Skill Index.
-		 */
+		* Skill Index.
+		*/
 		index : function( req, res ){
-		  res.render( 'skill/index', { 
-				user                : req.user,
-				login               : login,
-				linkTo_skillNew     : linkTo.linkTo(     'skill', 'new', null ),
-				linkTo_skillNewText : linkTo.linkToText( 'skill', 'new', null ),
-				title               : 'skill index' 
+			JSONRedis.toJSON( 'skill', 'skill', 0, function( error, skill ){
+				if( !skill ){ skill = []; }
+				res.render( 'skill/index', {
+					user                : req.user,
+					login               : login,
+					linkTo_skillNew     : linkTo.linkTo(     'skill', 'new', null ),
+					linkTo_skillNewText : linkTo.linkToText( 'skill', 'new', null ),
+					title               : 'Skill Index',
+					skill               : skill
+				});
 			});
 		},
 		/*
-		 * Skill New.
-		 */
+		* Skill New.
+		*/
 		'new' : function( req, res ){
-			res.render( 'skill/new', {
-				user  : req.user,
-				login : login,
-				form  : {
-					action : linkTo.linkTo( 'skill', 'create', null ),
-					method : 'POST',
-					name   : 'newSkill',
-					submit : linkTo.linkToText( 'skill', 'create', null )
-				},
-				attribute : [
-					{
-						abbr: 'MI',
-						name : 'Might'
-					}
-				],
-				group : [
-					'physical'
-				],
-				skill : {
-					name : 'test skill name'
-				},
-				title : 'skill new'
+			JSONRedis.toJSON( 'attribute', 'attribute', 0, function( error, attribute ){
+				if( !attribute ){ attribute = []; }
+				JSONRedis.toJSON( 'skillGroup', 'skillGroup', 0, function( error, skillGroup ){
+					if( !skillGroup ){ skillGroup = []; }
+					res.render( 'skill/new', {
+						user  : req.user,
+						login : login,
+						form  : {
+							action : linkTo.linkTo( 'skill', 'create', null ),
+							method : 'POST',
+							name   : 'newSkill',
+							submit : linkTo.linkToText( 'skill', 'create', null )
+						},
+						attribute : attribute,
+						group     : skillGroup,
+						skill     : {
+							name : 'test skill name'
+						},
+						title : 'New Skill'
+					});
+				});
 			});
 		}
 	}

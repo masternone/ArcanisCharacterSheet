@@ -26,10 +26,15 @@ body {
 	padding: 0 0 0 2.5em;
 	.vert-gradient3( #FFFFFF, 0%, #CCCCCC, 80%, #000000, 100% )
 }
-h1{
-	font-size: 2em;
+h1, h2, h3, h4, h5, h6{
 	line-height: 1.25em;
 	margin: 1.25em 0;
+}
+h1{
+	font-size: 2em;
+}
+h3{
+	font-size: 1.5em;
 }
 a:link, a:visited{
 	color: @linkColor;
@@ -52,6 +57,19 @@ a:hover{
 		margin: 0;
 		padding: 0;
 	}
+}
+tr.even{
+	background-color: #FFF;
+}
+tr.odd{
+	background-color: #CCC;
+}
+th, td{
+	min-width: 9em;
+}
+td{
+	padding: 0 .5em;
+	text-align: right;
 }
 form{
 	p{
