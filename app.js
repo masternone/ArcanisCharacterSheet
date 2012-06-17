@@ -149,6 +149,12 @@ app.get( '/:controller/new', isAdminReq, function( req, res, next ){ // new
 app.post( '/:controller', isAdminReq,  function( req, res, next ){ // create
 	routes[req.params.controller]['create']( req, res, redis );
 });
+app.get( '/:controller/edit/:id', isAdminReq, function( req, res, next ){ // edit
+	routes[req.params.controller]['edit']( req, res, req.params.id );
+});
+app.put( '/:controller/:id', isAdminReq,  function( req, res, next ){ // update
+	routes[req.params.controller]['update']( req, res, redis, req.params.id );
+});
 
 var port = process.env.PORT || 8888,
 	host = process.env.HOST || 'localhost';

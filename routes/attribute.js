@@ -10,8 +10,8 @@ exports.attribute = function( linkTo, login ){
 					login                   : login,
 					title                   : 'attribute index',
 					attribute               : attribute,
-					linkTo_attributeNew     : linkTo.linkTo( 'attribute', 'new', 0 ),
-					linkTo_attributeNewText : linkTo.linkToText( 'attribute', 'new', 0 )
+					linkTo_attributeNew     : linkTo.linkTo( 'attribute', 'new', null ),
+					linkTo_attributeNewText : linkTo.linkToText( 'attribute', 'new', null )
 				});
 			});
 		},
@@ -20,13 +20,15 @@ exports.attribute = function( linkTo, login ){
 		*/
 		show : function( req, res, id ){
 			JSONRedis.toJSON( 'attribute', 'attribute:' + id, 0, function( error, attribute ){
-				console.log( 'attribute', attribute)
+				attribute = [attribute[id]]
 				res.render( 'attribute/show', {
-					user      : req.user,
-					login     : login,
-					flash     : ( typeof( flash ) == 'string' && flash.length > 0 ? flash : '' ),
-					attribute : attribute,
-					title     : 'Attribute'
+					user                     : req.user,
+					login                    : login,
+					edit                     : ( req.user && req.user.roles && req.user.roles.join().indexOf( 'admin' ) > -1 ? true : false ),
+					linkTo_attributeEdit     : linkTo.linkTo( 'attribute', 'edit', id ),
+					linkTo_attributeEditText : linkTo.linkToText( 'attribute', 'edit', id ),
+					attribute                : attribute,
+					title                    : 'Attribute'
 				 });
 			});
 		 },
@@ -37,7 +39,6 @@ exports.attribute = function( linkTo, login ){
 			res.render( 'attribute/new', {
 				user      : req.user,
 				login     : login,
-				flash     : ( typeof( flash ) == 'string' && flash.length > 0 ? flash : '' ),
 				form      : {
 					action : linkTo.linkTo( 'attribute', 'create', null ),
 					method : 'POST',
@@ -48,8 +49,7 @@ exports.attribute = function( linkTo, login ){
 					abbr : '',
 					name : ''
 				},
-				submit : 'Create Attribute',
-				title : 'new attribute'
+				title : 'New Attribute'
 			});
 		},
 		/*
@@ -68,7 +68,6 @@ exports.attribute = function( linkTo, login ){
 				res.redirect( '/' + req.params.controller + '/' + id );
 			}
 			redis.exists( 'attributeId', function( error, exists ){
-				console.log( 'exists', exists );
 				if( !exists ){
 					var id = 0;
 					redis.set( 'attributeId', id );
@@ -78,14 +77,39 @@ exports.attribute = function( linkTo, login ){
 						save( id );
 					});
 				}
-			})
-		}
+			});
+		},
 		/*
 		 * Attribute Edit.
 		 */
+ 		edit : function( req, res, id ){
+			JSONRedis.toJSON( 'attribute', 'attribute:' + id, 0, function( error, attribute ){
+				attribute = [attribute[id]]
+				res.render( 'attribute/new', {
+					user      : req.user,
+					login     : login,
+					form      : {
+						action : linkTo.linkTo( 'attribute', 'update', null ),
+						method : 'PUT',
+						name   : 'editAttribute',
+						submit : linkTo.linkToText( 'attribute', 'update', null )
+					},
+					attribute : attribute,
+					title : 'Edit Attribute'
+				});
+			});
+		},
 		/*
 		 * Attribute Update.
 		 */
+		update : function( req, res, redis ){
+			function errorFnc( error ){
+				if( error ) console.log( error );
+			}
+			redis.set( 'attribute:' + id + ':abbr', req.body.abbr, errorFnc );
+			redis.set( 'attribute:' + id + ':name', req.body.name, errorFnc );
+			res.redirect( '/' + req.params.controller + '/' + id );
+		}
 		/*
 		 * Attribute Destroy.
 		 */

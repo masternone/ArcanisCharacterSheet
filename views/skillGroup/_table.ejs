@@ -1,0 +1,20 @@
+<table cellpadding="0" cellspacing="0" border="1" frame="void" rules="all" >
+	<thead>
+		<tr>
+			<th>Name</th>
+		</tr>
+	</thead>
+	<tbody><%
+		if( skillGroup.length > 0 ){
+			skillGroup.forEach(function( value, key ){
+				var stripe = key % 2 == 0 ? 'even' : 'odd'; %>
+				<tr class="<%= stripe %>">
+					<td><a href="/skillGroup/<%= key %>"><%= value.name %></a></td>
+					<% if( edit ){ %>
+					<td><a href="<%= linkTo_skillGroupEdit %>"><%= linkTo_skillGroupEditText %></a></td>
+					<% } %>
+				</tr><%
+			});
+		}
+	%></tbody>
+</table>

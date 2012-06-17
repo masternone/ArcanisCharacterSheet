@@ -11,7 +11,11 @@
 				var stripe = key % 2 == 0 ? 'even' : 'odd'; %>
 				<tr class="<%= stripe %>">
 					<td><a href="/attribute/<%= key %>"><%= value.name %></a></td>
-					<td><%= value.abbr %></td>
+					<td><%= value.abbr %></td><%
+					if( edit ){ %>
+					<td><a href="<%= linkTo_attributeEdit %>">linkTo_attributeEditText</a></td>
+					<% } %>
+					%>
 				</tr><%
 			});
 		}

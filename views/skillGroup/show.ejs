@@ -1,7 +1,2 @@
-<h1><%= title %></h1>
-<p>skill groups</p>
-<p>
-	<span class="name"><%= name %></span>
-	<a href="<%= linkTo_skillGroupEdit %>" ><%= linkTo_skillGroupEditText %></a>
-	<a href="<%= linkTo_skillGroupDestroy %>" ><%= linkTo_skillGroupDestroyText %></a>
-</p>
+<h3><a href="<%= linkTo_skillGroupIndex %>"><%= title %></a></h3>
+<%- partial( 'table', { skillGroup : skillGroup }) %>

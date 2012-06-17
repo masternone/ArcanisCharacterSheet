@@ -6,7 +6,7 @@ var login = {
 	linkTo_logout     : '/logout',
 	linkTo_logoutText : 'Logout'
 }
-var dataAreas = ['attribute', 'skill', 'skillGroup'];
+var dataAreas = ['archetype','attribute', 'skill', 'skillGroup'];
 
 /*
  * GET root
