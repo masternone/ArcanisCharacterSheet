@@ -8,6 +8,7 @@ exports.archetype = function( linkTo, login ){
 					res.render( 'archetype/index', { 
 					user                    : req.user,
 					login                   : login,
+					edit                    : false,
 					title                   : 'archetype index',
 					archetype               : archetype,
 					linkTo_archetypeNew     : linkTo.linkTo( 'archetype', 'new', null ),

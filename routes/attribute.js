@@ -8,6 +8,7 @@ exports.attribute = function( linkTo, login ){
 					res.render( 'attribute/index', { 
 					user                    : req.user,
 					login                   : login,
+					edit                    : false,
 					title                   : 'attribute index',
 					attribute               : attribute,
 					linkTo_attributeNew     : linkTo.linkTo( 'attribute', 'new', null ),
@@ -84,15 +85,15 @@ exports.attribute = function( linkTo, login ){
 		 */
  		edit : function( req, res, id ){
 			JSONRedis.toJSON( 'attribute', 'attribute:' + id, 0, function( error, attribute ){
-				attribute = [attribute[id]]
+				attribute = attribute[id];
 				res.render( 'attribute/new', {
 					user      : req.user,
 					login     : login,
 					form      : {
-						action : linkTo.linkTo( 'attribute', 'update', null ),
+						action : linkTo.linkTo( 'attribute', 'update', id ),
 						method : 'PUT',
 						name   : 'editAttribute',
-						submit : linkTo.linkToText( 'attribute', 'update', null )
+						submit : linkTo.linkToText( 'attribute', 'update', id )
 					},
 					attribute : attribute,
 					title : 'Edit Attribute'

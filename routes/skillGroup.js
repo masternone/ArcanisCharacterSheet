@@ -20,7 +20,7 @@ exports.skillGroup = function( linkTo, login ){
 			});
 		},
 		/*
-		 * Skill Group New.
+		 * Skill Group Show.
 		 */
 		show : function( req, res, id ){
 			JSONRedis.toJSON( 'skillGroup', 'skillGroup:' + id, 0, function( error, skillGroup ){

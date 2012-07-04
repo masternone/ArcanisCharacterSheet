@@ -32,11 +32,11 @@ exports.linkToText = function( controller, action, id ){
 		case 'new':
 			return 'New ' + ucFirst( controller );
 		case 'create':
-			return false;
+			return 'Create';
 		case 'edit':
 			return 'Edit'
 		case 'update':
-			return false;
+			return 'Update';
 		case 'destroy':
 			return 'Delete';
 		default:

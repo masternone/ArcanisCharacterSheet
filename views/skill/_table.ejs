@@ -7,12 +7,17 @@
 		</tr>
 	</thead>
 	<tbody><%
+	console.log( skill );
 		if( skill.length > 0 ){
 			skill.forEach(function( value, key ){
 				var stripe = key % 2 == 0 ? 'even' : 'odd'; %>
 				<tr class="<%= stripe %>">
 					<td><a href="/skill/<%= key %>"><%= value.name %></a></td>
-					<td><%= value.abbr %></td>
+					<td><%= attribute[value.attribute].name %></td>
+					<td><%= skillGroup[value.skillGroup].name %></td>
+					<% if( edit ){ %>
+					<td><a href="<%= linkTo_skillEdit %>"><%= linkTo_skillEditText %></a></td>
+					<% } %>
 				</tr><%
 			});
 		}
