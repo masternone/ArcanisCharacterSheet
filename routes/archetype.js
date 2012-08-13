@@ -5,11 +5,14 @@ exports.archetype = function( linkTo, login ){
 		 */
 		index : function( req, res ){
 			JSONRedis.toJSON( 'archetype', 'archetype', 0, function( error, archetype ){
-					res.render( 'archetype/index', { 
+				archetype = archetype == null ? {} : archetype;
+				console.log( 'archetype', archetype);
+				console.log( 'typeof( archetype )', typeof( archetype ));
+				res.render( 'archetype/index', { 
 					user                    : req.user,
 					login                   : login,
 					edit                    : false,
-					title                   : 'archetype index',
+					title                   : 'Archetype Index',
 					archetype               : archetype,
 					linkTo_archetypeNew     : linkTo.linkTo( 'archetype', 'new', null ),
 					linkTo_archetypeNewText : linkTo.linkToText( 'archetype', 'new', null )
@@ -21,7 +24,7 @@ exports.archetype = function( linkTo, login ){
 		 */
 		show : function( req, res, id ){
 			JSONRedis.toJSON( 'archetype', 'archetype:' + id, 0, function( error, archetype ){
-				archetype = [archetype[id]]
+				archetype = archetype[id];
 				res.render( 'archetype/show', {
 					user                     : req.user,
 					login                    : login,
@@ -39,12 +42,14 @@ exports.archetype = function( linkTo, login ){
 		'new' : function( req, res, id ){
 			JSONRedis.toJSON( 'skill', 'skill', 0, function( error, skill ){
 				if( !skill ){ skill = []; }
-				JSONRedis.toJSON( 'skillGroup', 'skillGroup', 0, function( error, attribute ){
-					if( !attribute ){ attribute = []; }
+				JSONRedis.toJSON( 'skillGroup', 'skillGroup', 0, function( error, skillGroup ){
+					if( !skillGroup ){ skillGroup = []; }
+					//type not set eg specfic group or choice ( choose from more that one group or specfic skill)
+					var type = ['specfic', 'group', 'choice'];
 					res.render( 'archetype/new', {
-						user      : req.user,
-						login     : login,
-						form      : {
+						user  : req.user,
+						login : login,
+						form  : {
 							action : linkTo.linkTo( 'archetype', 'create', null ),
 							method : 'POST',
 							name   : 'newArchetype',
@@ -52,12 +57,15 @@ exports.archetype = function( linkTo, login ){
 						},
 						archetype : {
 							name    : '',
-							skill   : '',
-							tallent : ''
+							skill   : [],
+							tallent : []
 						},
 						skill      : skill,
 						skillGroup : skillGroup,
-						title      : 'New Archetype'
+						type       : type,
+						title      : 'New Archetype',
+						linkTo_typeNew     : linkTo.linkTo( 'type', 'new', null ),
+						linkTo_typeNewText : linkTo.linkToText( 'type', 'new', null )
 					});
 				});
 			});

@@ -1,0 +1,29 @@
+<% console.log( 'here' ) %>
+<form id="<%= form.name %>" name="<%= form.name %>" action="<%= form.action %>" method="POST" >
+	<% if( typeof( archetype.id ) == 'number' ){ %><input type="hidden" id="id" name="id" value="<%= archetype.id %>" /> <% } %>
+	<% if( form.method == "put" ){ %><input type="hidden" id="_method" name="_method" value="<%= method %>" /> <% } %>
+	<p>
+		<label for="name" >Name</label>
+		<input type="text" id="name" name="name" value="<%= archetype.name %>" />
+	</p>
+	<div class="clearfix" ></div>
+	<h4>Skills</h4>
+	<p>
+		<!-- put a loop to print out all chosen skill types here -->
+		<!-- this will allow one to add a new skill here -->
+		<% skillCount = 0 %>
+		<label for="skill[skillCount]" >Type</label>
+			<select id="skill-<%= skillCount %>" name="skill[skillCount]" >
+				<% for( n in type ){ %>
+					<option value="<%= n %>"><%= type[n] %></option>
+				<% } %>	
+			</select>
+			<a href="<%= linkTo_typeNew %>"><%= linkTo_typeNewText %></a>
+	</p>
+	<div class="clearfix" ></div>
+	<p>
+		<input type="submit" id="submit" name="submit" value="<%= form.submit %>" />
+		<input type="reset" id="reset" name="reset" value="Reset" />
+	</p>
+	<div class="clearfix" ></div>
+</form>

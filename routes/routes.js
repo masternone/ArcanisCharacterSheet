@@ -41,6 +41,7 @@ exports.index = function( req, res ){
  * controller.
  */
 exports.character  = require( './character'  ).character(  linkTo, login );
+exports.archetype  = require( './archetype'  ).archetype(  linkTo, login );
 exports.attribute  = require( './attribute'  ).attribute(  linkTo, login );
 exports.skill      = require( './skill'      ).skill(      linkTo, login );
 exports.skillGroup = require( './skillGroup' ).skillGroup( linkTo, login );
