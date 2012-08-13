@@ -35,7 +35,7 @@ passport.use(
 		process.nextTick( function(){
 			JSONRedis.toJSON( 'user', 'user:' + profile.id, 0, function( error, fromRedis ){
 				if( error ){ console.log( error ); return error; }
-				console.log( 'fromRedis', fromRedis );
+				//console.log( 'fromRedis', fromRedis );
 				var user = {};
 				if( fromRedis ){
 					return done( null, fromRedis[profile.id] );
@@ -135,11 +135,11 @@ app.get( '/logout', function( req, res ){
 
 app.get( '/', routes.index );
 app.get( '/:controller', isAdminReq, function( req, res, next ){
-	console.log( 'index', req.params );
+	//console.log( 'index', req.params );
 	routes[req.params.controller].index( req, res );
 });
 app.get( '/:controller/:id', isAdminReq, function( req, res, next ){ // show
-	console.log( 'req.params', req.params );
+	//console.log( 'req.params', req.params );
 	if( isNaN( req.params.id ) ) return next();
 	routes[req.params.controller].show( req, res, req.params.id );
 });
@@ -175,13 +175,13 @@ function isAuth( req, res, next ) {
 	res.redirect( '/login' );
 }
 function isAdminReq( req, res, next ){
-	console.log( 'inside isAdminReq' );
+	//console.log( 'inside isAdminReq' );
 	switch( req.params.controller ){
 		case 'attribute':
 		case 'skill':
 		case 'skillGroup':
 			if( req.user && req.user.roles && req.user.roles.join().indexOf( 'admin' ) > -1 ){
-				console.log( 'is admin' );
+				//console.log( 'is admin' );
 				next();
 			} else {
 				res.redirect( '/', 403 ); // TODO change this to a more robust 403 page cont display
@@ -198,7 +198,7 @@ function load(req, res, next) {
 		id         = req.params.id;
 	JSONRedis.toJSON( controller, controller + ':' + id, 0, function( error, fromRedis ){
 		if( error ) return next( new Error( 'Failed to load ' + controller + ':' + id ));
-		console.log( fromRedis );
+		//console.log( fromRedis );
 		
 	});
 }

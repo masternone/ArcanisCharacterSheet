@@ -5,6 +5,7 @@ exports.attribute = function( linkTo, login ){
 		 */
 		index : function( req, res ){
 			JSONRedis.toJSON( 'attribute', 'attribute', 0, function( error, attribute ){
+					attribute = attribute ? attribute : [];
 					res.render( 'attribute/index', { 
 					user                    : req.user,
 					login                   : login,

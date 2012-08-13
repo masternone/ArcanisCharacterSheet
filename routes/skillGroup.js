@@ -7,6 +7,7 @@ exports.skillGroup = function( linkTo, login ){
 		 */
 		index : function( req, res ){
 			JSONRedis.toJSON( 'skillGroup', 'skillGroup', 0, function( error, skillGroup ){
+				skillGroup = skillGroup ? skillGroup : [];
 				res.render( 'skillGroup/index', { 
 					user                     : req.user,
 					login                    : login,

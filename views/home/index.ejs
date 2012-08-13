@@ -8,11 +8,8 @@
 	</div>
 <% } %>
 <% if( user && user.displayName && user.displayName != '' ){ %>
-	<div class="character">
-		<span class="name">Name</span>
-		<span class="rank">Rank</span>
-		<span class="link">Link to Character</span>
-	</div>
+	<%- partial( 'table', { character : character }) %>
+	<a href="<%= linkTo_characterNew %>"><%= linkTo_characterNewText %></a>
 <% } else { %>
 	<p>Login to view or create characters</p>
 <% } %>
