@@ -1,0 +1,8 @@
+<% if( flash.notice ){ %>
+	<div class="notice"><%= flash.notice %>
+<% } %>
+<% if( flash.error ){ %>
+	<div class="error"><%= flash.error %>
+<% } %>
+<h3><%= title %></h3>
+<%- partial( 'table', { attribute : attribute }) %>
