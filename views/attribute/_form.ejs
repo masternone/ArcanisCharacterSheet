@@ -1,4 +1,3 @@
-<% console.log( attribute ) %>
 <form id="<%= form.name %>" name="<%= form.name %>" action="<%= form.action %>" method="POST" >
 	<% if( typeof( attribute.id ) == 'number' ){ %><input type="hidden" id="id" name="id" value="<%= attribute.id %>" /> <% } %>
 	<% if( form.method == "put" ){ %><input type="hidden" id="_method" name="_method" value="<%= method %>" /> <% } %>

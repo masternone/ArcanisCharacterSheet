@@ -28,6 +28,7 @@ exports.index = function( req, res ){
  * The object that defines the actions for each controller have been moved to a seperate file for each
  * controller.
  */
+exports.archetype  = require( './archetype'  ).archetype(  linkTo, login );
 exports.attribute  = require( './attribute'  ).attribute(  linkTo, login );
 exports.skill      = require( './skill'      ).skill(      linkTo, login );
 exports.skillGroup = require( './skillGroup' ).skillGroup( linkTo, login );

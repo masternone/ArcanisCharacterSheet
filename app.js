@@ -11,17 +11,11 @@ var express        = require( 'express' ),
 	models         = require( './models/models' ),
 	JSONRedis      = require( './util/JSONRedis' ).JSONRedis( redis );
 
-// console.log( process.env );
-
 passport.serializeUser( function( user, done ){
-	// console.log( 'user', user );
-	// console.log( 'done', done );
 	done( null, user );
 });
 
 passport.deserializeUser( function( obj, done ){
-	// console.log( 'obj', obj );
-	// console.log( 'done', done );
 	done( null, obj );
 });
 
@@ -35,7 +29,6 @@ passport.use(
 		process.nextTick( function(){
 			JSONRedis.toJSON( 'user', 'user:' + profile.id, 0, function( error, fromRedis ){
 				if( error ){ console.log( error ); return error; }
-				console.log( 'fromRedis', fromRedis );
 				var user = {};
 				if( fromRedis ){
 					return done( null, fromRedis[profile.id] );
@@ -135,11 +128,9 @@ app.get( '/logout', function( req, res ){
 
 app.get( '/', routes.index );
 app.get( '/:controller', isAdminReq, function( req, res, next ){
-	console.log( 'index', req.params );
 	routes[req.params.controller].index( req, res );
 });
 app.get( '/:controller/:id', isAdminReq, function( req, res, next ){ // show
-	console.log( 'req.params', req.params );
 	if( isNaN( req.params.id ) ) return next();
 	routes[req.params.controller].show( req, res, req.params.id );
 });
@@ -170,18 +161,16 @@ app.listen( port, function(){
 // the request will proceed. Otherwise, the user will be redirected to the
 // login page.
 function isAuth( req, res, next ) {
-	console.log( 'in is auth' );
 	if ( req.isAuthenticated()) { return next(); }
 	res.redirect( '/login' );
 }
 function isAdminReq( req, res, next ){
-	console.log( 'inside isAdminReq' );
 	switch( req.params.controller ){
+		case 'archetype':
 		case 'attribute':
 		case 'skill':
 		case 'skillGroup':
 			if( req.user && req.user.roles && req.user.roles.join().indexOf( 'admin' ) > -1 ){
-				console.log( 'is admin' );
 				next();
 			} else {
 				res.redirect( '/', 403 ); // TODO change this to a more robust 403 page cont display
