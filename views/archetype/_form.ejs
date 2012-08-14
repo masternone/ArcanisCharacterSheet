@@ -1,4 +1,3 @@
-<% console.log( 'here' ) %>
 <form id="<%= form.name %>" name="<%= form.name %>" action="<%= form.action %>" method="POST" >
 	<% if( typeof( archetype.id ) == 'number' ){ %><input type="hidden" id="id" name="id" value="<%= archetype.id %>" /> <% } %>
 	<% if( form.method == "put" ){ %><input type="hidden" id="_method" name="_method" value="<%= method %>" /> <% } %>
@@ -8,22 +7,20 @@
 	</p>
 	<div class="clearfix" ></div>
 	<h4>Skills</h4>
-	<p>
-		<!-- put a loop to print out all chosen skill types here -->
-		<!-- this will allow one to add a new skill here -->
-		<% skillCount = 0 %>
-		<label for="skill[skillCount]" >Type</label>
-			<select id="skill-<%= skillCount %>" name="skill[skillCount]" >
-				<% for( n in type ){ %>
-					<option value="<%= n %>"><%= type[n] %></option>
-				<% } %>	
-			</select>
-			<a href="<%= linkTo_typeNew %>"><%= linkTo_typeNewText %></a>
-	</p>
-	<div class="clearfix" ></div>
+	<!-- TODO: put a loop to print out all chosen skill types here -->
+	<p><input type="button" id="skillAdd" name="skillAdd" value="Add Skill" /></p>
+	
+	<div id="skillAddBefore" class="clearfix" ></div>
 	<p>
 		<input type="submit" id="submit" name="submit" value="<%= form.submit %>" />
 		<input type="reset" id="reset" name="reset" value="Reset" />
 	</p>
 	<div class="clearfix" ></div>
 </form>
+<script type="text/javascript">
+	$( function(){
+		$( '#skillAdd' ).skillAdd({
+			type : [<% for( n in type ){ %>'<%= type[n] %>'<% if( n < type.length ){ %>, <% } %><% } %>]
+		});
+	});
+</script>

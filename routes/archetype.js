@@ -1,4 +1,4 @@
-exports.archetype = function( linkTo, login ){
+exports.archetype = function( linkTo, login, type ){
 	return {
 		/*
 		 * Archetype Index.
@@ -44,8 +44,6 @@ exports.archetype = function( linkTo, login ){
 				if( !skill ){ skill = []; }
 				JSONRedis.toJSON( 'skillGroup', 'skillGroup', 0, function( error, skillGroup ){
 					if( !skillGroup ){ skillGroup = []; }
-					//type not set eg specfic group or choice ( choose from more that one group or specfic skill)
-					var type = ['specfic', 'group', 'choice'];
 					res.render( 'archetype/new', {
 						user  : req.user,
 						login : login,
