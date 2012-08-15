@@ -10,9 +10,10 @@ exports.attribute = function( linkTo, login ){
 					user                    : req.user,
 					login                   : login,
 					edit                    : false,
-					title                   : 'attribute index',
+					title                   : 'Attribute Index',
 					attribute               : attribute,
-					linkTo_attributeNew     : linkTo.linkTo( 'attribute', 'new', null ),
+					linkTo_attributeIndex   : linkTo.linkTo(     'attribute', 'index', null ),
+					linkTo_attributeNew     : linkTo.linkTo(     'attribute', 'new', null ),
 					linkTo_attributeNewText : linkTo.linkToText( 'attribute', 'new', null )
 				});
 			});
@@ -27,6 +28,7 @@ exports.attribute = function( linkTo, login ){
 					user                     : req.user,
 					login                    : login,
 					edit                     : ( req.user && req.user.roles && req.user.roles.join().indexOf( 'admin' ) > -1 ? true : false ),
+					linkTo_attributeIndex   : linkTo.linkTo(     'attribute', 'index', null ),
 					linkTo_attributeEdit     : linkTo.linkTo( 'attribute', 'edit', id ),
 					linkTo_attributeEditText : linkTo.linkToText( 'attribute', 'edit', id ),
 					attribute                : attribute,
@@ -41,6 +43,7 @@ exports.attribute = function( linkTo, login ){
 			res.render( 'attribute/new', {
 				user      : req.user,
 				login     : login,
+				linkTo_attributeIndex : linkTo.linkTo( 'attribute', 'index', null ),
 				form      : {
 					action : linkTo.linkTo( 'attribute', 'create', null ),
 					method : 'POST',
@@ -90,6 +93,7 @@ exports.attribute = function( linkTo, login ){
 				res.render( 'attribute/new', {
 					user      : req.user,
 					login     : login,
+					linkTo_attributeIndex : linkTo.linkTo( 'attribute', 'index', null ),
 					form      : {
 						action : linkTo.linkTo( 'attribute', 'update', id ),
 						method : 'PUT',

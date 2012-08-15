@@ -18,9 +18,13 @@
 	<div class="clearfix" ></div>
 </form>
 <script type="text/javascript">
+	<% console.log( 'skillGroup', skillGroup ); %>
+	<% console.log( 'skill', skill ); %>
 	$( function(){
 		$( '#skillAdd' ).skillAdd({
-			type : [<% for( n in type ){ %>'<%= type[n] %>'<% if( n < type.length ){ %>, <% } %><% } %>]
+			skill      : [],
+			skillGroup : [<% for( var i = 0; i < skillGroup.length; i++ ){ %>'<%= skillGroup[i].name %>'<% if( i < skillGroup.length - 1 ){ %>,<% } %><% } %>],
+			type       : ['<%= type.join( '\',\'' ) %>']
 		});
 	});
 </script>
