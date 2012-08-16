@@ -6,14 +6,13 @@ exports.archetype = function( linkTo, login, type ){
 		index : function( req, res ){
 			JSONRedis.toJSON( 'archetype', 'archetype', 0, function( error, archetype ){
 				archetype = archetype == null ? {} : archetype;
-				console.log( 'archetype', archetype);
-				console.log( 'typeof( archetype )', typeof( archetype ));
 				res.render( 'archetype/index', { 
 					user                    : req.user,
 					login                   : login,
 					edit                    : false,
 					title                   : 'Archetype Index',
 					archetype               : archetype,
+					linkTo_archetypeIndex   : linkTo.linkTo( 'archetype', 'index', null ),
 					linkTo_archetypeNew     : linkTo.linkTo( 'archetype', 'new', null ),
 					linkTo_archetypeNewText : linkTo.linkToText( 'archetype', 'new', null )
 				});
@@ -29,6 +28,7 @@ exports.archetype = function( linkTo, login, type ){
 					user                     : req.user,
 					login                    : login,
 					edit                     : ( req.user && req.user.roles && req.user.roles.join().indexOf( 'admin' ) > -1 ? true : false ),
+					linkTo_archetypeIndex   : linkTo.linkTo( 'archetype', 'index', null ),
 					linkTo_archetypeEdit     : linkTo.linkTo( 'archetype', 'edit', id ),
 					linkTo_archetypeEditText : linkTo.linkToText( 'archetype', 'edit', id ),
 					archetype                : archetype,
@@ -47,6 +47,7 @@ exports.archetype = function( linkTo, login, type ){
 					res.render( 'archetype/new', {
 						user  : req.user,
 						login : login,
+						linkTo_archetypeIndex   : linkTo.linkTo( 'archetype', 'index', null ),
 						form  : {
 							action : linkTo.linkTo( 'archetype', 'create', null ),
 							method : 'POST',
@@ -107,6 +108,7 @@ exports.archetype = function( linkTo, login, type ){
 				res.render( 'archetype/new', {
 					user      : req.user,
 					login     : login,
+					linkTo_archetypeIndex   : linkTo.linkTo( 'archetype', 'index', null ),
 					form      : {
 						action : linkTo.linkTo( 'archetype', 'update', null ),
 						method : 'PUT',

@@ -28,8 +28,8 @@ exports.attribute = function( linkTo, login ){
 					user                     : req.user,
 					login                    : login,
 					edit                     : ( req.user && req.user.roles && req.user.roles.join().indexOf( 'admin' ) > -1 ? true : false ),
-					linkTo_attributeIndex   : linkTo.linkTo(     'attribute', 'index', null ),
-					linkTo_attributeEdit     : linkTo.linkTo( 'attribute', 'edit', id ),
+					linkTo_attributeIndex   :  linkTo.linkTo(     'attribute', 'index', null ),
+					linkTo_attributeEdit     : linkTo.linkTo(     'attribute', 'edit', id ),
 					linkTo_attributeEditText : linkTo.linkToText( 'attribute', 'edit', id ),
 					attribute                : attribute,
 					title                    : 'Attribute'
