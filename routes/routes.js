@@ -7,7 +7,13 @@ var login = {
 		linkTo_logoutText : 'Logout'
 	},
 	type = ['Specfic', 'Group', 'Choice'];
-	dataAreas = ['archetype','attribute', 'skill', 'skillGroup'];
+	dataAreas = [
+		{ name : 'user',       access : 'admin' },
+		{ name : 'archetype',  access : 'developer' },
+		{ name : 'attribute',  access : 'author' },
+		{ name : 'skill',      access : 'author' },
+		{ name : 'skillGroup', access : 'author' }
+	];
 
 /*
  * GET root
@@ -17,8 +23,9 @@ exports.index = function( req, res ){
 	var sidebar = [];
 	for( n in dataAreas ){
 		sidebar.push({
-			link : linkTo.linkTo( dataAreas[n], 'index', 0 ),
-			text : linkTo.linkToText( dataAreas[n], 'index', 0 )
+			access : dataAreas[n].access,
+			link   : linkTo.linkTo( dataAreas[n].name, 'index', 0 ),
+			text   : linkTo.linkToText( dataAreas[n].name, 'index', 0 )
 		});
 	}
 	//console.log( 'sidebar', sidebar );

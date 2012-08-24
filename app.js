@@ -40,7 +40,7 @@ passport.use(
 					}
 					switch( profile.emails[0].value ){
 						case 'themasternone@gmail.com':
-							user[profile.id].roles.push( 'admin' );
+							user[profile.id].roles.push( 'admin', 'developer', 'author' );
 					}
 					JSONRedis.toRedis( 'user', user, function(){
 						return done( null, user[profile.id] );

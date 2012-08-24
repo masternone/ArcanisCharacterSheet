@@ -9,7 +9,6 @@
 	<h4>Skills</h4>
 	<!-- TODO: put a loop to print out all chosen skill types here -->
 	<p><input type="button" id="skillAdd" name="skillAdd" value="Add Skill" /></p>
-	
 	<div id="skillAddBefore" class="clearfix" ></div>
 	<p>
 		<input type="submit" id="submit" name="submit" value="<%= form.submit %>" />
@@ -22,9 +21,9 @@
 	<% console.log( 'skill', skill ); %>
 	$( function(){
 		$( '#skillAdd' ).skillAdd({
-			skill      : [],
-			skillGroup : [<% for( var i = 0; i < skillGroup.length; i++ ){ %>'<%= skillGroup[i].name %>'<% if( i < skillGroup.length - 1 ){ %>,<% } %><% } %>],
-			type       : ['<%= type.join( '\',\'' ) %>']
+			skill      : <%- JSON.stringify( skill ).replace( /\&quot\;/g, '\'' ) %>,
+			skillGroup : <%- JSON.stringify( skillGroup ).replace( /\&quot\;/g, '\'' ) %>,
+			type       : <%- JSON.stringify( type ).replace( /\&quot\;/g, '\'' ) %>
 		});
 	});
 </script>
