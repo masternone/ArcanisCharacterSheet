@@ -13,8 +13,10 @@
 		for( n in character.attribute ){
 			console.log( 'n', n );
 			console.log( 'character.attribute[n]', character.attribute[n] ); %>
-			<label for="<%= character.attribute[n].abbr %>" ><%= character.attribute[n].name %></label>
-			<input type="number" id="<%= character.attribute[n].abbr %>" name="<%= character.attribute[n].abbr %>" value="2" />
+			<p>
+				<label for="<%= character.attribute[n].abbr %>" ><%= character.attribute[n].name %></label>
+				<input type="number" id="<%= character.attribute[n].abbr %>" name="<%= character.attribute[n].abbr %>" value="2" />
+			</p>
 		<% } %>
 	</p>
 	<div class="clearfix" ></div>

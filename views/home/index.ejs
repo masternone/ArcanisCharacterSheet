@@ -2,9 +2,7 @@
 	<div class="sidebar">
 		<ul>
 			<% for( n in sidebar ){ %>
-				<% if( user.roles.join().indexOf( sidebar[n].access ) > -1 ){ %>
-					<li><a href="<%= sidebar[n].link %>"><%= sidebar[n].text %></a></li>
-				<% } %>
+				<li><a href="<%= sidebar[n].link %>"><%= sidebar[n].text %></a></li>
 			<% } %>
 		</ul>
 	</div>

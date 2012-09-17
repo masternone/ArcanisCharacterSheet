@@ -170,7 +170,7 @@ function isAdminReq( req, res, next ){
 		case 'attribute':
 		case 'skill':
 		case 'skillGroup':
-			if( req.user && req.user.roles && req.user.roles.join().indexOf( 'admin' ) > -1 ){
+			if( req.user && req.user.roles && req.user.roles.join().indexOf( 'author' ) > -1 ){
 				next();
 			} else {
 				res.redirect( '/', 403 ); // TODO change this to a more robust 403 page cont display

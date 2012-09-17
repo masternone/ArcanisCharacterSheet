@@ -7,10 +7,15 @@ var login = {
 		linkTo_logoutText : 'Logout'
 	},
 	type = ['Specfic', 'Group', 'Choice'];
+	// access:
+	//	admin     -- This function is only for admins
+	//	author    -- This function is finished and ready for authors
+	//	developer -- This function is still in development and may not be ready for authors
 	dataAreas = [
 		{ name : 'user',       access : 'admin' },
 		{ name : 'archetype',  access : 'developer' },
 		{ name : 'attribute',  access : 'author' },
+		{ name : 'attrVals',   access : 'developer' },
 		{ name : 'skill',      access : 'author' },
 		{ name : 'skillGroup', access : 'author' }
 	];
@@ -22,11 +27,12 @@ exports.index = function( req, res ){
 	//console.log( 'req.user', req.user );
 	var sidebar = [];
 	for( n in dataAreas ){
-		sidebar.push({
-			access : dataAreas[n].access,
-			link   : linkTo.linkTo( dataAreas[n].name, 'index', 0 ),
-			text   : linkTo.linkToText( dataAreas[n].name, 'index', 0 )
-		});
+		if( req.user && req.user.roles.join().indexOf( dataAreas[n].access ) > -1 ){
+			sidebar.push({
+				link   : linkTo.linkTo( dataAreas[n].name, 'index', 0 ),
+				text   : linkTo.linkToText( dataAreas[n].name, 'index', 0 )
+			});
+		}
 	}
 	//console.log( 'sidebar', sidebar );
 	JSONRedis.toJSON( 'character', 'character', 0, function( error, character ){
@@ -51,5 +57,6 @@ exports.index = function( req, res ){
 exports.character  = require( './character'  ).character(  linkTo, login );
 exports.archetype  = require( './archetype'  ).archetype(  linkTo, login, type );
 exports.attribute  = require( './attribute'  ).attribute(  linkTo, login );
+exports.attrVals   = require( './attrVals'   ).attrVals(   linkTo, login );
 exports.skill      = require( './skill'      ).skill(      linkTo, login );
 exports.skillGroup = require( './skillGroup' ).skillGroup( linkTo, login );
