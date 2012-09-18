@@ -23,12 +23,14 @@ exports.attrVals = function( linkTo, login ){
 		*/
 		show : function( req, res, id ){
 			JSONRedis.toJSON( 'attrVals', 'attrVals:' + id, 0, function( error, attrVals ){
+				console.log( 'error', error );
+				console.log( 'attrVals', attrVals );
 				attrVals = [attrVals[id]]
 				res.render( 'attrVals/show', {
 					user                    : req.user,
 					login                   : login,
 					edit                    : ( req.user && req.user.roles && req.user.roles.join().indexOf( 'admin' ) > -1 ? true : false ),
-					linkTo_attrValsIndex    :  linkTo.linkTo(     'attrVals', 'index', null ),
+					linkTo_attrValsIndex    : linkTo.linkTo(     'attrVals', 'index', null ),
 					linkTo_attrValsEdit     : linkTo.linkTo(     'attrVals', 'edit', id ),
 					linkTo_attrValsEditText : linkTo.linkToText( 'attrVals', 'edit', id ),
 					attrVals                : attrVals,
@@ -68,10 +70,14 @@ exports.attrVals = function( linkTo, login ){
 			}
 			function save( id ){
 				redis.sadd( 'attrVals', 'attrVals:' + id, errorFnc );
-				redis.sadd( 'attrVals:' + id, 'attrVals:' + id + ':abbr', errorFnc );
-				redis.sadd( 'attrVals:' + id, 'attrVals:' + id + ':name', errorFnc );
-				redis.set( 'attrVals:' + id + ':abbr', req.body.abbr, errorFnc );
-				redis.set( 'attrVals:' + id + ':name', req.body.name, errorFnc );
+				redis.sadd( 'attrVals:' + id, 'attrVals:' + id + ':cost',    errorFnc );
+				redis.sadd( 'attrVals:' + id, 'attrVals:' + id + ':value',   errorFnc );
+				redis.sadd( 'attrVals:' + id, 'attrVals:' + id + ':die',     errorFnc );
+				redis.sadd( 'attrVals:' + id, 'attrVals:' + id + ':passive', errorFnc );
+				redis.set(  'attrVals:' + id + ':cost',    req.body.cost,    errorFnc );
+				redis.set(  'attrVals:' + id + ':value',   req.body.value,   errorFnc );
+				redis.set(  'attrVals:' + id + ':die',     req.body.die,     errorFnc );
+				redis.set(  'attrVals:' + id + ':passive', req.body.passive, errorFnc );
 				res.redirect( '/' + req.params.controller + '/' + id );
 			}
 			redis.exists( 'attrValsId', function( error, exists ){
@@ -114,8 +120,10 @@ exports.attrVals = function( linkTo, login ){
 			function errorFnc( error ){
 				if( error ) console.log( error );
 			}
-			redis.set( 'attrVals:' + id + ':abbr', req.body.abbr, errorFnc );
-			redis.set( 'attrVals:' + id + ':name', req.body.name, errorFnc );
+			redis.set( 'attrVals:' + id + ':cost',    req.body.cost,    errorFnc );
+			redis.set( 'attrVals:' + id + ':value',   req.body.value,   errorFnc );
+			redis.set( 'attrVals:' + id + ':die',     req.body.die,     errorFnc );
+			redis.set( 'attrVals:' + id + ':passive', req.body.passive, errorFnc );
 			res.redirect( '/' + req.params.controller + '/' + id );
 		}
 		/*
