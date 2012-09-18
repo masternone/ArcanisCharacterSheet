@@ -23,8 +23,6 @@ exports.attrVals = function( linkTo, login ){
 		*/
 		show : function( req, res, id ){
 			JSONRedis.toJSON( 'attrVals', 'attrVals:' + id, 0, function( error, attrVals ){
-				console.log( 'error', error );
-				console.log( 'attrVals', attrVals );
 				attrVals = [attrVals[id]]
 				res.render( 'attrVals/show', {
 					user                    : req.user,
@@ -54,7 +52,7 @@ exports.attrVals = function( linkTo, login ){
 				},
 				attrVals : {
 					cost    : 0,
-					value   : 0,
+					score   : 0,
 					die     : 0,
 					passive : 0
 				},
@@ -71,11 +69,11 @@ exports.attrVals = function( linkTo, login ){
 			function save( id ){
 				redis.sadd( 'attrVals', 'attrVals:' + id, errorFnc );
 				redis.sadd( 'attrVals:' + id, 'attrVals:' + id + ':cost',    errorFnc );
-				redis.sadd( 'attrVals:' + id, 'attrVals:' + id + ':value',   errorFnc );
+				redis.sadd( 'attrVals:' + id, 'attrVals:' + id + ':score',   errorFnc );
 				redis.sadd( 'attrVals:' + id, 'attrVals:' + id + ':die',     errorFnc );
 				redis.sadd( 'attrVals:' + id, 'attrVals:' + id + ':passive', errorFnc );
 				redis.set(  'attrVals:' + id + ':cost',    req.body.cost,    errorFnc );
-				redis.set(  'attrVals:' + id + ':value',   req.body.value,   errorFnc );
+				redis.set(  'attrVals:' + id + ':score',   req.body.score,   errorFnc );
 				redis.set(  'attrVals:' + id + ':die',     req.body.die,     errorFnc );
 				redis.set(  'attrVals:' + id + ':passive', req.body.passive, errorFnc );
 				res.redirect( '/' + req.params.controller + '/' + id );
@@ -104,7 +102,7 @@ exports.attrVals = function( linkTo, login ){
 					linkTo_attrValsIndex : linkTo.linkTo( 'attrVals', 'index', null ),
 					form      : {
 						action : linkTo.linkTo( 'attrVals', 'update', id ),
-						method : 'PUT',
+						method : 'put',
 						name   : 'editAttrVals',
 						submit : linkTo.linkToText( 'attrVals', 'update', id )
 					},
@@ -116,12 +114,12 @@ exports.attrVals = function( linkTo, login ){
 		/*
 		 * Attribute Values Update.
 		 */
-		update : function( req, res, redis ){
+		update : function( req, res, redis, id ){
 			function errorFnc( error ){
 				if( error ) console.log( error );
 			}
 			redis.set( 'attrVals:' + id + ':cost',    req.body.cost,    errorFnc );
-			redis.set( 'attrVals:' + id + ':value',   req.body.value,   errorFnc );
+			redis.set( 'attrVals:' + id + ':score',   req.body.score,   errorFnc );
 			redis.set( 'attrVals:' + id + ':die',     req.body.die,     errorFnc );
 			redis.set( 'attrVals:' + id + ':passive', req.body.passive, errorFnc );
 			res.redirect( '/' + req.params.controller + '/' + id );

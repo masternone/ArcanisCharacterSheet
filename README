@@ -55,8 +55,16 @@ Create all the data input forms
 			edit - DONE
 			update - DONE
 			destroy
-		cost, value, passive
+		score, cost, die, passive
+			index - DONE
+			show - DONE
+			new - DONE
+			create - DONE
+			edit - DONE
+			update - DONE
+			destroy
 	archetypes
+	backgrounds
 	religion
 	region
 	skill groups
@@ -80,12 +88,36 @@ Create all the data input forms
 		martial techniques
 	spell traditions 
 	tallents
-	architypes
 	equipment
-	backgrounds
 Create all the methods to save the data in a redis Data Store
 	The JSONRedis.toJSON function can pull the data from the Redis data store.
-	
-Create a wizard to select options for a character
-	way incrementaly save character
+
+Create a wizard to manage character
+	Envision you character
+		This where one would write a paragraph or two on who there character is.
+	Define attributes
+		Display form for attributes - 
+		Add functionality to display the amount spent on attributes
+	Select Archetype
+		Record default options
+		Choose options that must be chosen now.
+	Select Race
+		Record default options
+		Choose options that must be chosen now.
+		Indicate defered items that need to be choosen later
+	Select Nation and Region
+		Choose two skill from your nation/region.
+		Choose languages based on passive logic from race and nation/region.
+	Select Background
+		Record default opptions
+		Choose options that must be choosen now.
+		Record gear gaind from background.
+		Record starting coin.
+	Spend additional skill ranks.
+		
+	Choose a flaw
+		Indicate defered items that need to be choosen later
+	Select Tallents
+		Choose two tallents pluse any defered.
+	Purchase additional gear.
 Dispaly completed character

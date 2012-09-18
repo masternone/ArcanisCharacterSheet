@@ -168,6 +168,7 @@ function isAdminReq( req, res, next ){
 	switch( req.params.controller ){
 		case 'archetype':
 		case 'attribute':
+		case 'attrVals':
 		case 'skill':
 		case 'skillGroup':
 			if( req.user && req.user.roles && req.user.roles.join().indexOf( 'author' ) > -1 ){

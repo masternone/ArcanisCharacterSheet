@@ -1,8 +1,8 @@
 <table cellpadding="0" cellspacing="0" border="1" frame="void" rules="all" >
 	<thead>
 		<tr>
+			<th>Score</th>
 			<th>Cost</th>
-			<th>Value</th>
 			<th>Die</th>
 			<th>Passive</th>
 		</tr>
@@ -11,17 +11,22 @@
 		if( attrVals.length > 0 ){
 			attrVals.forEach( function( value, key ){
 				var stripe = key % 2 == 0 ? 'even' : 'odd';
-				console.log( 'value', value );
-				console.log( 'key', key );
 				%><tr class="<%= stripe %>">
+					<td><%
+						// If the length is greater than 1 you must be in the index action.
+						if( attrVals.length > 1 ){
+							%><a href="/attrVals/<%= key %>"><%= value.score %></a><%
+						} else {
+						// Else you must be in the show action.
+						%><%= value.score %><% }
+					%></td>
 					<td><%= value.cost %></td>
-					<td><%= value.value %></td>
 					<td><%= value.die %></td>
 					<td><%= value.passive %></td><%
 					if( edit ){
 						%><td><a href="<%= linkTo_attrValsEdit %>"><%= linkTo_attrValsEditText %></a></td><%
-					} %>
-				</tr><%
+					}
+				%></tr><%
 			});
 		}
 	%></tbody>

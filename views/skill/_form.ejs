@@ -1,6 +1,6 @@
 <form id="<%= form.name %>" name="<%= form.name %>" action="<%= action %>" method="POST" >
 	<% if( typeof( id ) == 'number' ){ %><input type="hidden" id="id" name="id" value="<%= id %>" /> <% } %>
-	<% if( form.method == "put" ){ %><input type="hidden" id="_method" name="_method" value="<%= method %>" /> <% } %>
+	<% if( form.method == "put" ){ %><input type="hidden" id="_method" name="_method" value="<%= form.method %>" /> <% } %>
 	<p>
 		<label for="name" >Name</label>
 		<input type="text" id="name" name="name" value="<%= skill.name %>" />

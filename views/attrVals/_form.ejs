@@ -1,14 +1,14 @@
 <form id="<%= form.name %>" name="<%= form.name %>" action="<%= form.action %>" method="POST" >
 	<% if( typeof( attrVals.id ) == 'number' ){ %><input type="hidden" id="id" name="id" value="<%= attrVals.id %>" /> <% } %>
-	<% if( form.method == "put" ){ %><input type="hidden" id="_method" name="_method" value="<%= method %>" /> <% } %>
+	<% if( form.method == "put" ){ %><input type="hidden" id="_method" name="_method" value="<%= form.method %>" /> <% } %>
 	<p>
-		<label for="cost" >Cost</label>
-		<input type="number" id="cost" name="cost" value="<%= attrVals.cost %>" />
+		<label for="score" >Score</label>
+		<input type="number" id="score" name="score" value="<%= attrVals.score %>" />
 	</p>
 	<div class="clearfix" ></div>
 	<p>
-		<label for="value" >Value</label>
-		<input type="number" id="value" name="value" value="<%= attrVals.value %>" />
+		<label for="cost" >Cost</label>
+		<input type="number" id="cost" name="cost" value="<%= attrVals.cost %>" />
 	</p>
 	<div class="clearfix" ></div>
 	<p>
