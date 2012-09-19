@@ -1,7 +1,5 @@
-<% console.log( character ) %>
 <form id="<%= form.name %>" name="<%= form.name %>" action="<%= form.action %>" method="POST" >
-	<% if( typeof( character.id ) == 'number' ){ %><input type="hidden" id="id" name="id" value="<%= character.id %>" /> <% } %>
-	<% if( form.method == "put" ){ %><input type="hidden" id="_method" name="_method" value="<%= method %>" /> <% } %>
+	<% if( form.method == "put" ){ %><input type="hidden" id="_method" name="_method" value="<%= form.method %>" /> <% } %>
 	<p>
 		<label for="name" >Name</label>
 		<input type="text" id="name" name="name" value="<%= character.name %>" />
@@ -9,15 +7,32 @@
 	<div class="clearfix" ></div>
 	<p>
 		<span class="label">Attribute</span>
-		<% console.log( 'character.attribute', character.attribute );
-		for( n in character.attribute ){
-			console.log( 'n', n );
-			console.log( 'character.attribute[n]', character.attribute[n] ); %>
-			<p>
-				<label for="<%= character.attribute[n].abbr %>" ><%= character.attribute[n].name %></label>
-				<input type="number" id="<%= character.attribute[n].abbr %>" name="<%= character.attribute[n].abbr %>" value="2" />
-			</p>
-		<% } %>
+		<span class="label header">Score</span>
+		<span class="label header">Die</span>
+		<span class="label header">Passive</span>
+		<span class="label header">Cost</span>
+	</p><%
+	for( n in attribute ){
+		if( !character[attribute[n].abbr] )       character[attribute[n].abbr] = {};
+		if( !character[attribute[n].abbr].score ) character[attribute[n].abbr].score = 2; // this is the default value
+		var attrVal = [];
+		for( m in attrVals ){
+			if( attrVals[m].score == character[attribute[n].abbr].score ) attrVal = attrVals[m];
+		}
+		%><p>
+			<label for="<%= attribute[n].abbr %>" ><%= attribute[n].name %></label>
+			<input type="number" id="<%= attribute[n].abbr %>" name="<%= attribute[n].abbr %>" value="<%= attrVal.score %>" />
+			<span class="label"><%= attrVal.die %></span>
+			<span class="label"><%= attrVal.passive %></span>
+			<span class="label"><%= attrVal.cost %></span>
+		</p><%
+	}
+	%><p>
+		<span class="label">&nbsp;</span>
+		<span class="label">&nbsp;</span>
+		<span class="label">&nbsp;</span>
+		<span class="label header">Total</span>
+		<span class="label total">0</span>
 	</p>
 	<div class="clearfix" ></div>
 	<p>

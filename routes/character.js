@@ -40,21 +40,24 @@ exports.character = function( linkTo, login ){
 		'new' : function( req, res, id ){
 			JSONRedis.toJSON( 'attribute', 'attribute', 0, function( error, attribute ){
 				if( !attribute ){ attribute = []; }
-				console.log( 'attribute', attribute );
-				res.render( 'character/new', {
-					user      : req.user,
-					login     : login,
-					form      : {
-						action : linkTo.linkTo( 'character', 'create', null ),
-						method : 'POST',
-						name   : 'newCharacter',
-						submit : linkTo.linkToText( 'character', 'create', null )
-					},
-					character : {
-						name      : '',
-						attribute : attribute
-					},
-					title : 'New Character'
+				JSONRedis.toJSON( 'attrVals', 'attrVals', 0, function( error, attrVals ){
+					if( !attrVals ){ attrVals = []; }
+					res.render( 'character/new', {
+						user      : req.user,
+						login     : login,
+						form      : {
+							action : linkTo.linkTo( 'character', 'create', null ),
+							method : 'POST',
+							name   : 'newCharacter',
+							submit : linkTo.linkToText( 'character', 'create', null )
+						},
+						attribute : attribute,
+						attrVals  : attrVals,
+						character : {
+							name      : ''
+						},
+						title : 'New Character'
+					});
 				});
 			});
 		},

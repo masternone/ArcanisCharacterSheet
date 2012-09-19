@@ -72,17 +72,23 @@ form{
 		label{
 			text-align: right;
 		}
+		.header{
+			font-weight: bold;
+		}
 		.push, span, label, input, select {
 			margin: 0 .5em 0 0;
 			display: block;
 			float: left;
+			width: 9.75em;
+		}
+		input{
 			width: 9.5em;
 		}
-		input#submit + input#reset{
-			margin: 0 .5em 0 0;
-		}
-		label, select, input#submit, input#reset{
+		input#submit, input#reset{
 			width: 9.75em;
+		}
+		input#reset{
+			margin: 0 .5em 0 0;
 		}
 	}
 }
