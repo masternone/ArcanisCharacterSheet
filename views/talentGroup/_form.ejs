@@ -1,0 +1,13 @@
+<form id="<%= form.name %>" name="<%= form.name %>" action="<%= form.action %>" method="POST" >
+	<% if( form.method == "put" ){ %><input type="hidden" id="_method" name="_method" value="<%= method %>" /> <% } %>
+	<p>
+		<label for="name" >Name</label>
+		<input type="text" id="name" name="name" value="<%= talentGroup.name %>" />
+	</p>
+	<div class="clearfix" ></div>
+	<p>
+		<input type="submit" id="submit" name="submit" value="<%= form.submit %>" />
+		<input type="reset" id="reset" name="reset" value="Reset" />
+	</p>
+	<div class="clearfix" ></div>
+</form>
