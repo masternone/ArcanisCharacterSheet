@@ -6,18 +6,23 @@ var login = {
 		linkTo_logout     : '/logout',
 		linkTo_logoutText : 'Logout'
 	},
-	type = ['Specfic', 'Group', 'Choice'];
+	choiceType = ['Specfic', 'Group', 'Choice'],
+	reqType    = ['Attribute', 'Archetype', 'Background', 'Race', 'Religion', 'Skill', 'Talent', 'Limited', 'Military'],
+	benType    = ['Skill Rank', 'Conditional Skill Bonus', 'Choose a Spell', 'Specfic Spell', 'Specfic'],
 	// access:
 	//	admin     -- This function is only for admins
 	//	author    -- This function is finished and ready for authors
 	//	developer -- This function is still in development and may not be ready for authors
+	// this information is duplicated in app.js
 	dataAreas = [
-		{ name : 'user',       access : 'admin' },
-		{ name : 'archetype',  access : 'developer' },
-		{ name : 'attribute',  access : 'author' },
-		{ name : 'attrVals',   access : 'developer' },
-		{ name : 'skill',      access : 'author' },
-		{ name : 'skillGroup', access : 'author' }
+		{ name : 'user',        access : 'admin' },
+		{ name : 'archetype',   access : 'developer' },
+		{ name : 'attribute',   access : 'author' },
+		{ name : 'attrVals',    access : 'author' },
+		{ name : 'skill',       access : 'author' },
+		{ name : 'skillGroup',  access : 'author' },
+		{ name : 'talent',      access : 'developer' },
+		{ name : 'talentGroup', access : 'developer' }
 	];
 
 /*
@@ -54,9 +59,11 @@ exports.index = function( req, res ){
  * The object that defines the actions for each controller have been moved to a seperate file for each
  * controller.
  */
-exports.character  = require( './character'  ).character(  linkTo, login );
-exports.archetype  = require( './archetype'  ).archetype(  linkTo, login, type );
-exports.attribute  = require( './attribute'  ).attribute(  linkTo, login );
-exports.attrVals   = require( './attrVals'   ).attrVals(   linkTo, login );
-exports.skill      = require( './skill'      ).skill(      linkTo, login );
-exports.skillGroup = require( './skillGroup' ).skillGroup( linkTo, login );
+exports.character   = require( './character'   ).character(   linkTo, login );
+exports.archetype   = require( './archetype'   ).archetype(   linkTo, login, choiceType );
+exports.attribute   = require( './attribute'   ).attribute(   linkTo, login );
+exports.attrVals    = require( './attrVals'    ).attrVals(    linkTo, login );
+exports.skill       = require( './skill'       ).skill(       linkTo, login );
+exports.skillGroup  = require( './skillGroup'  ).skillGroup(  linkTo, login );
+exports.talent      = require( './talent'      ).talent(      linkTo, login, reqType, benType );
+exports.talentGroup = require( './talentGroup' ).talentGroup( linkTo, login );

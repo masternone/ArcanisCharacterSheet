@@ -127,23 +127,24 @@ app.get( '/logout', function( req, res ){
 /* end user block */
 
 app.get( '/', routes.index );
-app.get( '/:controller', isAdminReq, function( req, res, next ){
-	routes[req.params.controller].index( req, res );
+app.get( /^\/(\w*)(\.(\w*))?$/, isAuth, isAdminReq, function( req, res, next ){
+	console.log( 'req.params', req.params );
+	routes[req.params[0]].index( req, res, req.params.length == 3 && req.params[2] ? req.params[2].toUpperCase() : '' );
 });
-app.get( '/:controller/:id', isAdminReq, function( req, res, next ){ // show
+app.get( '/:controller/:id', isAuth, isAdminReq, function( req, res, next ){ // show
 	if( isNaN( req.params.id ) ) return next();
 	routes[req.params.controller].show( req, res, req.params.id );
 });
-app.get( '/:controller/new', isAdminReq, function( req, res, next ){ // new
+app.get( '/:controller/new', isAuth, isAdminReq, function( req, res, next ){ // new
 	routes[req.params.controller]['new']( req, res );
 });
-app.post( '/:controller', isAdminReq,  function( req, res, next ){ // create
+app.post( '/:controller', isAuth, isAdminReq,  function( req, res, next ){ // create
 	routes[req.params.controller]['create']( req, res, redis );
 });
-app.get( '/:controller/edit/:id', isAdminReq, function( req, res, next ){ // edit
+app.get( '/:controller/edit/:id', isAuth, isAdminReq, function( req, res, next ){ // edit
 	routes[req.params.controller]['edit']( req, res, req.params.id );
 });
-app.put( '/:controller/:id', isAdminReq,  function( req, res, next ){ // update
+app.put( '/:controller/:id', isAuth, isAdminReq,  function( req, res, next ){ // update
 	routes[req.params.controller]['update']( req, res, redis, req.params.id );
 });
 
@@ -166,12 +167,27 @@ function isAuth( req, res, next ) {
 }
 function isAdminReq( req, res, next ){
 	switch( req.params.controller ){
-		case 'archetype':
+		case 'user':
+			if( req.user && req.user.roles && req.user.roles.join().indexOf( 'admin' ) > -1 ){
+				next();
+			} else {
+				res.redirect( '/', 403 ); // TODO change this to a more robust 403 page cont display
+			}
+			break;
 		case 'attribute':
 		case 'attrVals':
 		case 'skill':
 		case 'skillGroup':
 			if( req.user && req.user.roles && req.user.roles.join().indexOf( 'author' ) > -1 ){
+				next();
+			} else {
+				res.redirect( '/', 403 ); // TODO change this to a more robust 403 page cont display
+			}
+			break;
+		case 'archetype':
+		case 'talent':
+		case 'talentGroup':
+			if( req.user && req.user.roles && req.user.roles.join().indexOf( 'developer' ) > -1 ){
 				next();
 			} else {
 				res.redirect( '/', 403 ); // TODO change this to a more robust 403 page cont display

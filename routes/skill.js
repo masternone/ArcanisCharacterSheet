@@ -3,23 +3,32 @@ exports.skill = function( linkTo, login ){
 		/*
 		* Skill Index.
 		*/
-		index : function( req, res ){
+		index : function( req, res, format ){
 			JSONRedis.toJSON( 'skillGroup', 'skillGroup', 0, function( error, skillGroup ){
 				JSONRedis.toJSON( 'attribute', 'attribute', 0, function( error, attribute ){
 					JSONRedis.toJSON( 'skill', 'skill', 0, function( error, skill ){
 						if( !skill ){ skill = []; }
-						res.render( 'skill/index', {
-							user                : req.user,
-							login               : login,
-							edit                : false,
-							linkTo_skillIndex   : linkTo.linkTo(     'skill', 'index', null ),
-							linkTo_skillNew     : linkTo.linkTo(     'skill', 'new', null ),
-							linkTo_skillNewText : linkTo.linkToText( 'skill', 'new', null ),
-							skill               : skill,
-							attribute           : attribute,
-							skillGroup          : skillGroup,
-							title               : 'Skill Index'
-						});
+						if( format == 'JSON' ){
+							for( n in skill ){
+								skill[n].attribute  = attribute[skill[n].attribute];
+								skill[n].skillGroup = skillGroup[skill[n].skillGroup];
+							}
+							res.writeHead( 200, { "Content-Type" : "application/json" } );
+							res.end( JSON.stringify( skill ));
+						} else {
+							res.render( 'skill/index', {
+								user                : req.user,
+								login               : login,
+								edit                : false,
+								linkTo_skillIndex   : linkTo.linkTo(     'skill', 'index', null ),
+								linkTo_skillNew     : linkTo.linkTo(     'skill', 'new', null ),
+								linkTo_skillNewText : linkTo.linkToText( 'skill', 'new', null ),
+								skill               : skill,
+								attribute           : attribute,
+								skillGroup          : skillGroup,
+								title               : 'Skill Index'
+							});
+						}
 					});
 				});
 			});

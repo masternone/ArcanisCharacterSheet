@@ -37,6 +37,16 @@ GOOGLE_OAuth_Client_Secret
 
 to send coments please email Edward Grant at themasternone@gmail.com with the subject "Character Sheet"
 
+Static Data
+	choice type -> ['Specfic', 'Group', 'Choice']
+	tallent requirement type -> ['Attribute', 'Archetype', 'Background', 'Race', 'Religion', 'Skill', 'Talent', 'Limited', 'Military']
+	tallent benifit type -> ['Skill Rank', 'Conditional Skill Bonus', 'Choose a Spell', 'Specfic Spell', 'Specfic']
+
+
+Maintainablility issue:
+	The CRUD code for skillGroup and talentGroup are identicle except for varaible names. Need to find a way to combine these.
+
+
 TODO:
 User
 	Authentication - Done - Google Oauth2
@@ -46,49 +56,67 @@ User
 	Defining Roles
 		Assigining the user roles - In my local instance I have just manualy adjusted this but an admin interface is nessacary for a final product.
 Create all the data input forms
-	attributes
+	attribute
 		abbreviation, name
-			index - DONE
-			show - DONE
-			new - DONE
+			index  - DONE
+			show   - DONE
+			new    - DONE
 			create - DONE
-			edit - DONE
+			edit   - DONE
 			update - DONE
 			destroy
 		score, cost, die, passive
-			index - DONE
-			show - DONE
-			new - DONE
+			index  - DONE
+			show   - DONE
+			new    - DONE
 			create - DONE
-			edit - DONE
+			edit   - DONE
 			update - DONE
 			destroy
-	archetypes
-	backgrounds
+	archetype
+	background
+	race
 	religion
 	region
-	skill groups
-		index - DONE
-		show - DONE
-		new - DONE
+	skill
+		index  - DONE
+		show   - DONE
+		new    - DONE
 		create - DONE
-		edit - DONE
+		edit   - DONE
 		update - DONE
 		destroy
-	skill
-		index -DONE
-		show _ DONE
-		new - DONE
+	skill group
+		index  - DONE
+		show   - DONE
+		new    - DONE
 		create - DONE
+		edit   - DONE
+		update - DONE
+		destroy
+	manuever
+		weapon tricks
+		martial techniques
+	spell tradition
+	tallent
+		index
+		show 
+		new
+		create
 		edit
 		update
 		destroy
-	manuevers
-		weapon tricks
-		martial techniques
-	spell traditions 
-	tallents
+	tallent group
+		index  - DONE
+		show   - DONE
+		new    - DONE
+		create - DONE
+		edit   - DONE
+		update - DONE
+		destroy
 	equipment
+		when selecting gear apply quality adjustment to gear stats
+	equipment quality
 Create all the methods to save the data in a redis Data Store
 	The JSONRedis.toJSON function can pull the data from the Redis data store.
 
