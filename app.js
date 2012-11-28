@@ -128,7 +128,6 @@ app.get( '/logout', function( req, res ){
 
 app.get( '/', routes.index );
 app.get( /^\/(\w*)(\.(\w*))?$/, isAuth, isAdminReq, function( req, res, next ){
-	console.log( 'req.params', req.params );
 	routes[req.params[0]].index( req, res, req.params.length == 3 && req.params[2] ? req.params[2].toUpperCase() : '' );
 });
 app.get( '/:controller/:id', isAuth, isAdminReq, function( req, res, next ){ // show
@@ -166,7 +165,7 @@ function isAuth( req, res, next ) {
 	res.redirect( '/login' );
 }
 function isAdminReq( req, res, next ){
-	switch( req.params.controller ){
+	switch( req.params[0] ){
 		case 'user':
 			if( req.user && req.user.roles && req.user.roles.join().indexOf( 'admin' ) > -1 ){
 				next();

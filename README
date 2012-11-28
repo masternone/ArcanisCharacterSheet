@@ -102,6 +102,10 @@ Create all the data input forms
 		index
 		show 
 		new
+			Name
+			Tallent Group
+			conditional benifit
+			perminant benifit
 		create
 		edit
 		update
