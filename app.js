@@ -5,9 +5,9 @@
 
 var express        = require( 'express' ),
 	passport       = require( 'passport' ),
-	GoogleStrategy = require( 'passport-google-oauth' ).OAuth2Strategy
+	GoogleStrategy = require( 'passport-google-oauth' ).OAuth2Strategy,
 	redis          = require( 'redis-url' ).connect(),
-	routes         = require( './routes/routes' )
+	routes         = require( './routes/routes' ),
 	models         = require( './models/models' ),
 	JSONRedis      = require( './util/JSONRedis' ).JSONRedis( redis );
 
@@ -37,7 +37,7 @@ passport.use(
 						displayName : profile.displayName,
 						email       : profile.emails[0].value,
 						roles       : ['user']
-					}
+					};
 					switch( profile.emails[0].value ){
 						case 'themasternone@gmail.com':
 							user[profile.id].roles.push( 'admin', 'developer', 'author' );
@@ -139,13 +139,13 @@ app.get( '/:controller/new', isAuth, isAdminReq, function( req, res, next ){ // 
 	routes[req.params.controller]['new']( req, res );
 });
 app.post( '/:controller', isAuth, isAdminReq,  function( req, res, next ){ // create
-	routes[req.params.controller]['create']( req, res, redis );
+	routes[req.params.controller].create( req, res, redis );
 });
 app.get( '/:controller/edit/:id', isAuth, isAdminReq, function( req, res, next ){ // edit
-	routes[req.params.controller]['edit']( req, res, req.params.id );
+	routes[req.params.controller].edit( req, res, req.params.id );
 });
 app.put( '/:controller/:id', isAuth, isAdminReq,  function( req, res, next ){ // update
-	routes[req.params.controller]['update']( req, res, redis, req.params.id );
+	routes[req.params.controller].update( req, res, redis, req.params.id );
 });
 
 var port = process.env.PORT || 8888,

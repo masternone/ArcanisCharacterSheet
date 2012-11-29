@@ -5,7 +5,7 @@ exports.archetype = function( linkTo, login, type ){
 		 */
 		index : function( req, res ){
 			JSONRedis.toJSON( 'archetype', 'archetype', 0, function( error, archetype ){
-				archetype = archetype == null ? {} : archetype;
+				archetype = archetype === null ? {} : archetype;
 				res.render( 'archetype/index', { 
 					user                    : req.user,
 					login                   : login,
@@ -33,9 +33,9 @@ exports.archetype = function( linkTo, login, type ){
 					linkTo_archetypeEditText : linkTo.linkToText( 'archetype', 'edit', id ),
 					archetype                : archetype,
 					title                    : 'Archetype'
-				 });
+				});
 			});
-		 },
+		},
 		/*
 		 * Archetype New.
 		 */
@@ -102,9 +102,9 @@ exports.archetype = function( linkTo, login, type ){
 		/*
 		 * Archetype Edit.
 		 */
- 		edit : function( req, res, id ){
+		edit : function( req, res, id ){
 			JSONRedis.toJSON( 'archetype', 'archetype:' + id, 0, function( error, archetype ){
-				archetype = [archetype[id]]
+				archetype = [archetype[id]];
 				res.render( 'archetype/new', {
 					user      : req.user,
 					login     : login,
@@ -134,5 +134,5 @@ exports.archetype = function( linkTo, login, type ){
 		/*
 		 * Archetype Destroy.
 		 */
-	}
-}
+	};
+};
