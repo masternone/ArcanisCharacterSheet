@@ -9,16 +9,16 @@ exports.talent = function( linkTo, login, reqType, benType ){
 					JSONRedis.toJSON( 'talent', 'talent', 0, function( error, talent ){
 						if( !talent ){ talent = []; }
 						res.render( 'talent/index', {
-							user                : req.user,
-							login               : login,
-							edit                : false,
+							user                 : req.user,
+							login                : login,
+							edit                 : false,
 							linkTo_talentIndex   : linkTo.linkTo(     'talent', 'index', null ),
 							linkTo_talentNew     : linkTo.linkTo(     'talent', 'new', null ),
 							linkTo_talentNewText : linkTo.linkToText( 'talent', 'new', null ),
 							talent               : talent,
-							attribute           : attribute,
+							attribute            : attribute,
 							talentGroup          : talentGroup,
-							title               : 'Talent Index'
+							title                : 'Talent Index'
 						});
 					});
 				});
@@ -63,17 +63,18 @@ exports.talent = function( linkTo, login, reqType, benType ){
 					res.render( 'talent/new', {
 						user  : req.user,
 						login : login,
+						linkTo_talentIndex       : linkTo.linkTo(     'talent', 'index', null ),
 						form  : {
 							action : linkTo.linkTo( 'talent', 'create', null ),
 							method : 'POST',
 							name   : 'newTalent',
 							submit : 'Create New Talent'
 						},
-						attribute  : attribute,
+						attribute   : attribute,
 						talentGroup : talentGroup,
 						talent      : {
-							name       : '',
-							attribute  : '',
+							name        : '',
+							attribute   : '',
 							talentGroup : ''
 						},
 						title : 'New Talent'
@@ -85,7 +86,7 @@ exports.talent = function( linkTo, login, reqType, benType ){
 		 * Talent Create.
 		 */
 		create : function( req, res, redis ){
-			function errorFnc( error ){
+		function errorFnc( error ){
 				if( error ) console.log( error )
 			}
 			function save( id ){
@@ -93,9 +94,12 @@ exports.talent = function( linkTo, login, reqType, benType ){
 				redis.sadd( 'talent:' + id, 'talent:' + id + ':name', errorFnc );
 				redis.sadd( 'talent:' + id, 'talent:' + id + ':attribute', errorFnc );
 				redis.sadd( 'talent:' + id, 'talent:' + id + ':talentGroup', errorFnc );
-				redis.set( 'talent:' + id + ':name',       req.body.name, errorFnc );
-				redis.set( 'talent:' + id + ':attribute',  req.body.attribute, errorFnc );
-				redis.set( 'talent:' + id + ':talentGroup', req.body.talentGroup, errorFnc );
+				redis.set(  'talent:' + id + ':name',       req.body.name, errorFnc );
+				redis.set(  'talent:' + id + ':attribute',  req.body.attribute, errorFnc );
+				for( n in req.body.talentGroup ){
+					redis.sadd( 'talent:' + id + ':talentGroup', 'talent:' + id + ':talentGroup' + n );
+					redis.set(  'talent:' + id + ':talentGroup' + n, req.body.talentGroup[n], errorFnc );
+				}
 				res.redirect( '/' + req.params.controller + '/' + id );
 			}
 			redis.exists( 'talentId', function( error, exists ){
