@@ -58,11 +58,13 @@ redis.on( 'error', function( error ) {
 	}
 });
 
+/*
 redis.on( 'idle', function() {
 	console.log( 'inside idle' );
 	console.log( 'arguments', arguments );
 	console.log( 'ret', ret );
 });
+*/
 
 var app = module.exports = express.createServer();
 

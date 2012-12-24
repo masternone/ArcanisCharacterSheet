@@ -1,4 +1,6 @@
-var linkTo = require( '../util/linkTo' );
+var linkTo = require( '../util/linkTo' ),
+	redis  = require( 'redis-url' ).connect(),
+	JSONRedis = require( '../util/JSONRedis' ).JSONRedis( redis );
 
 var login = {
 		linkTo_login      : '/login',

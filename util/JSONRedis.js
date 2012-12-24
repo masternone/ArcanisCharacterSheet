@@ -1,5 +1,5 @@
 exports.JSONRedis = function( client ){
-	return {
+	var JSONRedis = {
 
 		finalJSON     : {},
 
@@ -60,6 +60,7 @@ exports.JSONRedis = function( client ){
 		toJSON : function( startingPoint, init, loop, callback ){
 			if( isNaN( loop )) loop = 0;
 			client.type( init, function( error, type ){
+				if( error ) console.log( 'toJSON Error', error );
 				switch( type ){
 					case 'set':
 						client.smembers( init, function( error, members ){
@@ -90,5 +91,6 @@ exports.JSONRedis = function( client ){
 				}
 			});
 		}
-	}
+	};
+	return JSONRedis;
 }
