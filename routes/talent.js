@@ -1,3 +1,6 @@
+var redis  = require( 'redis-url' ).connect(),
+	JSONRedis = require( '../util/JSONRedis' ).JSONRedis( redis );
+
 exports.talent = function( linkTo, login, reqType, benType ){
 	return {
 		/*
@@ -60,24 +63,32 @@ exports.talent = function( linkTo, login, reqType, benType ){
 				if( !talentGroup ){ talentGroup = []; }
 				JSONRedis.toJSON( 'attribute', 'attribute', 0, function( error, attribute ){
 					if( !attribute ){ attribute = []; }
-					res.render( 'talent/new', {
-						user  : req.user,
-						login : login,
-						linkTo_talentIndex       : linkTo.linkTo(     'talent', 'index', null ),
-						form  : {
-							action : linkTo.linkTo( 'talent', 'create', null ),
-							method : 'POST',
-							name   : 'newTalent',
-							submit : 'Create New Talent'
-						},
-						attribute   : attribute,
-						talentGroup : talentGroup,
-						talent      : {
-							name        : '',
-							attribute   : '',
-							talentGroup : ''
-						},
-						title : 'New Talent'
+					JSONRedis.toJSON( 'skill', 'skill', 0, function( error, skill ){
+						if( !skill ){ skill = []; }
+						JSONRedis.toJSON( 'talent', 'talent', 0, function( error, talent ){
+							if( !talent ){ talent = []; }
+							res.render( 'talent/new', {
+								user  : req.user,
+								login : login,
+								linkTo_talentIndex       : linkTo.linkTo(     'talent', 'index', null ),
+								form  : {
+									action : linkTo.linkTo( 'talent', 'create', null ),
+									method : 'POST',
+									name   : 'newTalent',
+									submit : 'Create New Talent'
+								},
+								attribute   : attribute,
+								skill       : skill,
+								talent      : talent,
+								talentGroup : talentGroup,
+								talent      : {
+									name        : '',
+									talentGroup : '',
+									requirement : [{}],
+								},
+								title : 'New Talent'
+							});
+						});
 					});
 				});
 			});

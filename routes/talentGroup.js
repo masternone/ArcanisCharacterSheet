@@ -1,3 +1,6 @@
+var redis  = require( 'redis-url' ).connect(),
+	JSONRedis = require( '../util/JSONRedis' ).JSONRedis( redis );
+
 exports.talentGroup = function( linkTo, login ){
 	return {
 		/*

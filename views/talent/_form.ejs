@@ -1,4 +1,21 @@
-<form id="<%= form.name %>" name="<%= form.name %>" action="<%= form.action %>" method="POST" >
+<%
+var addRequirement = function( n ){
+	var requirementArray = [ '', 'Attribute', 'Skill', 'Talent' ]; //TODO: Can this be moved in to the data? 
+	var ret = '' +
+		'\<p class="requirement" \>' +
+			'\<label for="requirement-' + n + '" \>Requirement-' + n + '\</label\>' +
+			'\<select id="requirement-' + n + '" name="requirement[' + n + '] \>';
+	for( j in requirementArray ){
+		var selected = ( !isNaN( talent.requirement[n].type ) && j == talent.requirement[n].type ) ? 'selected=SELECTED' : '';
+		ret = ret +
+				'\<option value="' + j + '" ' + selected + ' \>' + requirementArray[j] + '\</option\>';
+	}
+	ret = ret +
+			'\</select\>' +
+		'\</p\>';
+	return ret
+}
+%><form id="<%= form.name %>" name="<%= form.name %>" action="<%= form.action %>" method="POST" >
 	<% if( form.method == "put" ){ %><input type="hidden" id="_method" name="_method" value="<%= method %>" /> <% } %>
 	<p>
 		<label for="name" >Name</label>
@@ -9,14 +26,18 @@
 		<label for="talentGroup" >Group</label>
 		<select id="talentGroup" name="talentGroup" multiple="multiple"><%
 			 for( n in talentGroup ){
-				 var selected = ''
-				 if( !isNaN( talent.talentGroup ) && n == talent.talentGroup ) selected = 'SELECTED';
-				 %><option value="<%= n %>" <%= selected %>><%= talentGroup[n].name %></option>
+				var selected = ''
+				if( !isNaN( talent.talentGroup ) && n == talent.talentGroup ) selected = 'SELECTED';
+				%><option value="<%= n %>" <%= selected %>><%= talentGroup[n].name %></option>
 			<% } %>
 		</select>
 		<a id="newGroup" href="/talentGroup/new">Create a new Talent Group</a>
 	</p>
-	<div class="clearfix" ></div>
+	<div class="clearfix" ></div><%
+	for( n in talent.requirement ){
+		%><%- addRequirement( n ) %><%
+	}
+	%><div class="clearfix" ></div>
 	<p>
 		<input type="submit" id="submit" name="submit" value="<%= form.submit %>" />
 		<input type="reset" id="reset" name="reset" value="Reset" />
